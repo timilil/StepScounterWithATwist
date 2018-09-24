@@ -9,13 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-//import com.example.timil.sensorproject.database.TrophyDB
-//import com.example.timil.sensorproject.entities.Trophy
+import com.example.timil.sensorproject.database.TrophyDB
+import com.example.timil.sensorproject.entities.Trophy
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.map_fragment.*
-//import org.jetbrains.anko.doAsync
-//import org.jetbrains.anko.support.v4.UI
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.support.v4.UI
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -51,18 +51,7 @@ class MapFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*val db = TrophyDB.get(context!!)
-
-        if(db.trophyDao().getAllOld().size < 10){
-            Log.d("DBG", "size is "+db.trophyDao().getAllOld().size)
-        }*/
-        /*doAsync {
-            val id = db?.trophyDao()?.insert(Trophy(0, "John", "Doe"))
-            UI {
-                txtDbInsert.text = "Yes! $id"
-            }
-
-        }*/
+        val db = TrophyDB.get(context!!)
 
         map.setTileSource(TileSourceFactory.MAPNIK)
         //map.setBuiltInZoomControls(true)
@@ -82,49 +71,78 @@ class MapFragment: Fragment() {
                 myLocation.enableFollowLocation()
                 map.overlays.add(myLocation)
 
-                addTrophyToRandomLocation(task.result.longitude, task.result.latitude, 200)
-                addTrophyToRandomLocation(task.result.longitude, task.result.latitude, 4000)
-                addTrophyToRandomLocation(task.result.longitude, task.result.latitude, 6000)
-                addTrophyToRandomLocation(task.result.longitude, task.result.latitude, 8000)
-                addTrophyToRandomLocation(task.result.longitude, task.result.latitude, 10000)
+                doAsync {
 
+                    Log.d("DBG", "size: "+db.trophyDao().getAllOld().size)
+                    if(db.trophyDao().getAllOld().size < 10){
+                        //Log.d("DBG", "left: "+(10-db.trophyDao().getAllOld().size))
+                        val addItemsToDbCount = 10-db.trophyDao().getAllOld().size
+                        for (i in 0..addItemsToDbCount){
+                            val radius = Random()
+                            val minRange = 1000
+                            val maxRange = 8000
+                            val result = radius.nextInt(maxRange - minRange) + minRange
+                            addTrophyWithRandomLocationToDb(task.result.longitude, task.result.latitude, result)
+                            //Log.d("DBG", "result: "+result)
+                        }
+                    }
+                    UI {
+                        // livedata maybe for later?
+                        /*val tmp = ViewModelProviders.of(this@MapFragment).get(TrophyModel::class.java)
+                        tmp.getTrophies().observe(this@MapFragment, Observer {
+                            //e.g. using a recycler view adapter
+                            //list.adapter = UserAdapter(it?.sortedBy { it.lastname }, context)
+                            Log.d("DBG", "this is debug "+it?.sortedBy { it.latitude }.toString())
+                        })*/
+                        for (trophy in db.trophyDao().getAllOld()) {
+                            Log.d("DBG", "item" + trophy.toString())
 
-                val mOverlay = ItemizedOverlayWithFocus<OverlayItem>(context,items,
-                        object : ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
-                            override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
-                                Log.d("DBG", "Long press")
-                                return true
-                            }
+                            val olItem = OverlayItem(null, null, GeoPoint(trophy.latitude, trophy.longitude))
+                            val newMarker = resources.getDrawable(R.drawable.trophy, null)
+                            olItem.setMarker(newMarker)
+                            items.add(olItem)
+                            //db.trophyDao().delete(trophy)
+                        }
+                        val mOverlay = ItemizedOverlayWithFocus<OverlayItem>(context,items,
+                                object : ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
+                                    override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
+                                        Log.d("DBG", "Long press")
+                                        return true
+                                    }
 
-                            override fun onItemSingleTapUp(index: Int, item: OverlayItem): Boolean {
-                                Log.d("DBG", "Clicked "+item.point.latitude)
+                                    override fun onItemSingleTapUp(index: Int, item: OverlayItem): Boolean {
+                                        Log.d("DBG", "Clicked "+item.point.latitude)
 
-                                //if user is close to this item/walked distance is more than something: add the ar view so collect price...
-                                val myCurrentLocation = Location("")
-                                myCurrentLocation.latitude = task.result.latitude
-                                myCurrentLocation.longitude = task.result.longitude
+                                        //if user is close to this item/walked distance is more than something: add the ar view so collect price...
+                                        val myCurrentLocation = Location("")
+                                        myCurrentLocation.latitude = task.result.latitude
+                                        myCurrentLocation.longitude = task.result.longitude
 
-                                val clickedMarkerLocation = Location("")
-                                clickedMarkerLocation.latitude = item.point.latitude
-                                clickedMarkerLocation.longitude = item.point.longitude
+                                        val clickedMarkerLocation = Location("")
+                                        clickedMarkerLocation.latitude = item.point.latitude
+                                        clickedMarkerLocation.longitude = item.point.longitude
 
-                                val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
+                                        val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
 
-                                Log.d("DBG", "Distance is $distanceInMeters")
+                                        Log.d("DBG", "Distance is $distanceInMeters")
 
-                                return true
-                            }
-                        })
-                // adds description and title popup if needed...
-                //mOverlay.setFocusItemsOnTap(true)
+                                        return true
+                                    }
+                                })
+                        // adds description and title popup if needed...
+                        //mOverlay.setFocusItemsOnTap(true)
 
-                map.overlays.add(mOverlay)
+                        map.overlays.add(mOverlay)
+
+                        Log.d("DBG", "UI Here")
+                    }
+                }
 
             } else Log.d("GEOLOCATION", "not working")
         }
     }
 
-    private fun addTrophyToRandomLocation(x0: Double, y0: Double, radius: Int) {
+    private fun addTrophyWithRandomLocationToDb(x0: Double, y0: Double, radius: Int) {
         val random = Random()
 
         // Convert radius from meters to degrees
@@ -144,9 +162,7 @@ class MapFragment: Fragment() {
         val foundLatitude = y + y0
         println("Longitude: $foundLongitude  Latitude: $foundLatitude")
 
-        val olItem = OverlayItem(null, null, GeoPoint(foundLatitude, foundLongitude))
-        val newMarker = this.resources.getDrawable(R.drawable.trophy, null)
-        olItem.setMarker(newMarker)
-        items.add(olItem)
+        val db = TrophyDB.get(context!!)
+        db.trophyDao().insert(Trophy(0, foundLatitude, foundLongitude))
     }
 }

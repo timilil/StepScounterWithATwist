@@ -1,4 +1,4 @@
-/*package com.example.timil.sensorproject.database
+package com.example.timil.sensorproject.database
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
@@ -23,4 +23,4 @@ abstract class TrophyDB: RoomDatabase() {
         }
     }
 
-}*/
+}

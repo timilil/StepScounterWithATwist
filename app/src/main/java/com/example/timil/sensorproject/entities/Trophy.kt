@@ -1,4 +1,4 @@
-/*package com.example.timil.sensorproject.entities
+package com.example.timil.sensorproject.entities
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
@@ -10,4 +10,4 @@ data class Trophy(
         val latitude: Double,
         val longitude: Double) {
     override fun toString(): String = "$latitude $longitude"
-}*/
+}

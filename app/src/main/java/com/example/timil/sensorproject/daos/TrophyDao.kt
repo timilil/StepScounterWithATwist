@@ -1,4 +1,4 @@
-/*package com.example.timil.sensorproject.daos
+package com.example.timil.sensorproject.daos
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
@@ -13,10 +13,13 @@ interface TrophyDao {
     @Query("SELECT * FROM trophy")
     fun getAllOld(): List<Trophy>
 
+    @Delete
+    fun delete(trophy: Trophy)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(trophy: Trophy): Long
+    fun insert(trophy: Trophy)
 
     @Update
     fun update(trophy: Trophy)
 
-}*/
+}
