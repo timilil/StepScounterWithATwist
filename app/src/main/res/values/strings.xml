@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">SensorProject</string>
+    <string name="title_home">Home</string>
+    <string name="title_statistics">Statistics</string>
+    <string name="title_map">Map</string>
+</resources>
