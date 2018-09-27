@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.timil.sensorproject.R
 import com.example.timil.sensorproject.database.TrophyDB
 import com.example.timil.sensorproject.entities.Trophy
@@ -29,6 +30,7 @@ import java.util.*
 
 class MapFragment: Fragment() {
 
+    private var arFragment: AugmentedTrophyFragment? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var items = ArrayList<OverlayItem>()
 
@@ -120,6 +122,12 @@ class MapFragment: Fragment() {
                                         clickedMarkerLocation.longitude = item.point.longitude
 
                                         val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
+                                        if(distanceInMeters < 150.0){
+                                            Log.d("DBG", "Distance is less than 150m")
+
+                                        } else {
+                                            Toast.makeText(context, "Get closer to the target (less than 150m)", Toast.LENGTH_SHORT).show()
+                                        }
 
                                         Log.d("DBG", "Distance is $distanceInMeters")
 
