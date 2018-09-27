@@ -2,8 +2,6 @@ package com.example.timil.sensorproject.fragments
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.hardware.Sensor
-import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,10 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.timil.sensorproject.R
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
 
-class HomeFragment: Fragment()/*, SensorEventListener*/ {
+class HomeFragment: Fragment() {
 
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +46,7 @@ class HomeFragment: Fragment()/*, SensorEventListener*/ {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Name"
             val description = "Description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT;
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("Channel_id", name, importance)
             channel.description = description
             val manager = activity!!.getSystemService(NotificationManager::class.java) as NotificationManager

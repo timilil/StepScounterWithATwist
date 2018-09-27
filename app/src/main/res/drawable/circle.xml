@@ -5,6 +5,13 @@
     android:thickness="16dp"
     android:useLevel="true">
 
-    <solid android:color="@color/colorPrimary"/>
+    <gradient
+        android:centerX="0.7"
+        android:startColor="@color/colorRedThemePrimary"
+        android:centerColor="#FFFF00"
+        android:endColor="@color/colorGreenThemePrimary"
+        android:type="sweep"
+        />
+    <!--solid android:color="@color/colorPrimary"/-->
 
 </shape>

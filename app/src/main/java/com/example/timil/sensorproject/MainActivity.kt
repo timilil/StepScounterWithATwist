@@ -19,12 +19,10 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.example.timil.sensorproject.database.StepDB
 import com.example.timil.sensorproject.entities.Step
-import com.example.timil.sensorproject.fragments.HomeFragment
-import com.example.timil.sensorproject.fragments.MapFragment
-import com.example.timil.sensorproject.fragments.SettingsFragment
-import com.example.timil.sensorproject.fragments.StatisticsFragment
+import com.example.timil.sensorproject.fragments.*
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -32,7 +30,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity()*/ {
+class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFragmentTrophyClickListener, AugmentedTrophyFragment.AugmentedFragmentTrophyClickListener {
 
     private val homeFragment = HomeFragment()
     private val statisticsFragment = StatisticsFragment()
@@ -48,16 +46,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity
     private val formattedDate = date.format(formatter)
 
     private val map = hashMapOf<String, Int>()
-    val series = LineGraphSeries<DataPoint>()
+    private val series = LineGraphSeries<DataPoint>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val preferences = getSharedPreferences("pref_settings", Context.MODE_PRIVATE)
         val useTheme = preferences.getString("pref_settings", "N/A")
 
         Log.d("DBG", "Using theme: "+useTheme)
-        /*if(useTheme == "AppBlueTheme"){
-            setTheme(R.style.AppBlueTheme)
-        }*/
         when(useTheme){
             "AppTheme" -> setTheme(R.style.AppTheme)
             "AppBlueTheme" -> setTheme(R.style.AppBlueTheme)
@@ -161,6 +156,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onTrophyClick(id: Long, latitude: Double, longitude: Double) {
+
+        val arFragment = AugmentedTrophyFragment()
+
+        val bundle = Bundle()
+        bundle.putInt("x", getScreenCenter().x)
+        bundle.putInt("y", getScreenCenter().y)
+        bundle.putLong("id", id)
+        bundle.putDouble("latitude", latitude)
+        bundle.putDouble("longitude", longitude)
+        arFragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, arFragment).addToBackStack(null).commit()
+    }
+
+    override fun onARTrophyClick() {
+        supportFragmentManager.popBackStack()
+    }
+
     private fun saveSteps(sid: String, steps: Int){
         StepDB.get(this).stepDao().insert(Step(sid, steps))
     }
@@ -177,6 +191,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity
             false -> return 0
         }
     }
+
+    private fun getScreenCenter(): android.graphics.Point {
+        val vw = findViewById<View>(android.R.id.content)
+        return android.graphics.Point(vw.width / 2, vw.height / 2)
+    }
+
+
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -195,4 +216,5 @@ class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity
         }
         false
     }
+
 }

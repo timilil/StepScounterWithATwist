@@ -1,6 +1,7 @@
 package com.example.timil.sensorproject.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -30,13 +31,19 @@ import java.util.*
 
 class MapFragment: Fragment() {
 
-    private var arFragment: AugmentedTrophyFragment? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var items = ArrayList<OverlayItem>()
+    private var activityCallBack: MapFragmentTrophyClickListener? = null
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }*/
+    interface MapFragmentTrophyClickListener {
+        fun onTrophyClick(id: Long, latitude: Double, longitude: Double)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        activityCallBack = context as MapFragmentTrophyClickListener
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -75,7 +82,7 @@ class MapFragment: Fragment() {
                 doAsync {
 
                     Log.d("DBG", "size: "+db.trophyDao().getAllOld().size)
-                    if(db.trophyDao().getAllOld().size < 10){
+                    if(db.trophyDao().getAllOld().size < 11){
                         //Log.d("DBG", "left: "+(10-db.trophyDao().getAllOld().size))
                         val addItemsToDbCount = 10-db.trophyDao().getAllOld().size
                         for (i in 0..addItemsToDbCount){
@@ -96,9 +103,10 @@ class MapFragment: Fragment() {
                             Log.d("DBG", "this is debug "+it?.sortedBy { it.latitude }.toString())
                         })*/
                         for (trophy in db.trophyDao().getAllOld()) {
-                            val olItem = OverlayItem(null, null, GeoPoint(trophy.latitude, trophy.longitude))
+                            val olItem = OverlayItem(trophy.trophyid.toString(), null, GeoPoint(trophy.latitude, trophy.longitude))
                             val newMarker = resources.getDrawable(R.drawable.trophy, null)
                             olItem.setMarker(newMarker)
+
                             items.add(olItem)
                             //db.trophyDao().delete(trophy)
                         }
@@ -123,10 +131,9 @@ class MapFragment: Fragment() {
 
                                         val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
                                         if(distanceInMeters < 150.0){
-                                            Log.d("DBG", "Distance is less than 150m")
-
+                                            activityCallBack!!.onTrophyClick(item.title.toLong(), item.point.latitude, item.point.longitude)
                                         } else {
-                                            Toast.makeText(context, "Get closer to the target (less than 150m)", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, "Get closer to the target, your distance must be less than 150 m (distance is "+distanceInMeters.toInt()+" meters)", Toast.LENGTH_SHORT).show()
                                         }
 
                                         Log.d("DBG", "Distance is $distanceInMeters")
