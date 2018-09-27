@@ -88,6 +88,16 @@ class AugmentedTrophyFragment: ArFragment() {
     }*/
 
 
+    //TODO USE THESE VARIABLES FOR AR
+    /*
+    var testRenderable: ModelRenderable? = null
+    var otherRenderable: ModelRenderable? = null
+    var fragment: ArFragment? = null
+    var renderableFuture: CompletableFuture<ModelRenderable>? = null
+    val bugUri = Uri.parse("bug.sfb")
+    val splatUri = Uri.parse("splat.sfb")
+     */
+    
     //TODO THIS GOES IN ONCREATE...
     /*
     fragment!!.arSceneView.scene.addOnUpdateListener { _ ->
