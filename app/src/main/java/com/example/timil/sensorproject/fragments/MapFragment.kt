@@ -1,4 +1,4 @@
-package com.example.timil.sensorproject
+package com.example.timil.sensorproject.fragments
 
 import android.annotation.SuppressLint
 import android.location.Location
@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.timil.sensorproject.R
 import com.example.timil.sensorproject.database.TrophyDB
 import com.example.timil.sensorproject.entities.Trophy
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -62,8 +63,6 @@ class MapFragment: Fragment() {
             task ->
             if (task.isSuccessful && task.result != null) {
 
-                Log.d("GEOLOCATION", "latitude: ${task.result.latitude} and longitude: ${task.result.longitude}")
-
                 map.controller.setCenter(GeoPoint(task.result.latitude, task.result.longitude))
 
                 val myLocation = MyLocationNewOverlay(map)
@@ -95,8 +94,6 @@ class MapFragment: Fragment() {
                             Log.d("DBG", "this is debug "+it?.sortedBy { it.latitude }.toString())
                         })*/
                         for (trophy in db.trophyDao().getAllOld()) {
-                            Log.d("DBG", "item" + trophy.toString())
-
                             val olItem = OverlayItem(null, null, GeoPoint(trophy.latitude, trophy.longitude))
                             val newMarker = resources.getDrawable(R.drawable.trophy, null)
                             olItem.setMarker(newMarker)

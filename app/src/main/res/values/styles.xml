@@ -2,10 +2,31 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="AppBlueTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorBlueThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorBlueThemePrimaryDark</item>
+        <item name="colorAccent">@color/colorBlueThemePrimary</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="AppGreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorGreenThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorGreenThemePrimaryDark</item>
+        <item name="colorAccent">@color/colorGreenThemePrimary</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="AppRedTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorRedThemePrimary</item>
+        <item name="colorPrimaryDark">@color/colorRedThemePrimaryDark</item>
+        <item name="colorAccent">@color/colorRedThemePrimary</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
 </resources>

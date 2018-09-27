@@ -2,6 +2,16 @@
 <resources>
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#212121</color>
     <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorBlueThemePrimary">#2a397a</color>
+    <color name="colorBlueThemePrimaryDark">#25336d</color>
+
+    <color name="colorGreenThemePrimary">#02511b</color>
+    <color name="colorGreenThemePrimaryDark">#012e0f</color>
+
+    <color name="colorRedThemePrimary">#e50000</color>
+    <color name="colorRedThemePrimaryDark">#990000</color>
+
 </resources>
