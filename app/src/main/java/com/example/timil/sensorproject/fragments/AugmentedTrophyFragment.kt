@@ -87,4 +87,83 @@ class AugmentedTrophyFragment: ArFragment() {
         }
     }*/
 
+
+    //TODO THIS GOES IN ONCREATE...
+    /*
+    fragment!!.arSceneView.scene.addOnUpdateListener { _ ->
+            //fragment!!.planeDiscoveryController.hide()
+            addObject()
+        }
+     */
+
+    //TODO THESE ALSO IN ONCREATE
+    /*
+    //fragment!!.planeDiscoveryController.hide()
+
+        renderableFuture = ModelRenderable.builder()
+                .setSource(fragment!!.context, bugUri)
+                .build()
+        renderableFuture!!.thenAccept{ it -> testRenderable = it }
+
+        renderableFuture = ModelRenderable.builder()
+                .setSource(fragment!!.context, splatUri)
+                .build()
+        renderableFuture!!.thenAccept{ it -> otherRenderable = it }
+     */
+
+    //TODO MODIFY THIS FUNCTIONS TO SERVE OUR NEEDS
+    /*
+    private fun addObject(){
+        val frame = fragment!!.arSceneView.arFrame
+        val pt = getScreenCenter()
+        val hits: List<HitResult>
+        if (frame != null && testRenderable != null){
+            hits = frame.hitTest(pt.x.toFloat(), pt.y.toFloat())
+            for (hit in hits){
+                val trackable = hit.trackable
+                if (trackable is Plane){
+                    val anchor = hit!!.createAnchor()
+                    val anchorNode = AnchorNode(anchor)
+                    anchorNode.setParent(fragment!!.arSceneView.scene)
+                    val mNode = TransformableNode(fragment!!.transformationSystem)
+                    mNode.setParent(anchorNode)
+                    mNode.renderable = testRenderable
+                    mNode.select()
+                    val bug = testRenderable
+                    testRenderable = null
+                    mNode.setOnTapListener { _, _ ->
+                        if (mNode.renderable == bug) {
+                            mNode.renderable = otherRenderable
+                            mNode.select()
+                            points.text = (points.text.toString().toInt() + 1).toString()
+                            Toast.makeText(this, "Hit! +1p", Toast.LENGTH_SHORT).show()
+                            renderableFuture = ModelRenderable.builder()
+                                    .setSource(fragment!!.context, bugUri)
+                                    .build()
+                            renderableFuture!!.thenAccept{ it -> testRenderable = it }
+                        }
+                        else {
+                            anchorNode.removeChild(mNode)
+                            testRenderable = null
+                            Toast.makeText(this, "cleaned up", Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+                    break
+                }
+            }
+        }
+    }
+     */
+
+    //TODO USE THIS FUNCTION FOR AR
+    /*
+    private fun getScreenCenter(): android.graphics.PointF{
+        val vw = findViewById<View>(android.R.id.content)
+        return android.graphics.PointF(vw.width/(Math.random()*3).toFloat(), vw.height/(Math.random()*3).toFloat())
+    }
+     */
+
 }
+
+

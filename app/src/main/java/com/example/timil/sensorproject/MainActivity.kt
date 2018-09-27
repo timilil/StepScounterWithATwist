@@ -142,6 +142,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity
         saveSteps(formattedDate, getSteps(formattedDate) +1)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+
+        inflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.settings -> {
+                //Log.d("DBG", "Clicked settings")
+                val settingsFragment = SettingsFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun saveSteps(sid: String, steps: Int){
         StepDB.get(this).stepDao().insert(Step(sid, steps))
     }
@@ -175,24 +194,5 @@ class MainActivity : AppCompatActivity(), SensorEventListener /*FragmentActivity
             }
         }
         false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-
-        inflater.inflate(R.menu.toolbar_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.settings -> {
-                //Log.d("DBG", "Clicked settings")
-                val settingsFragment = SettingsFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
