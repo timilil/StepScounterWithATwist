@@ -1,37 +1,26 @@
 package com.example.timil.sensorproject.fragments
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.timil.sensorproject.database.TrophyDB
 import com.example.timil.sensorproject.entities.Trophy
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
-import com.google.ar.core.Point
 import com.google.ar.sceneform.AnchorNode
-import com.google.ar.sceneform.HitTestResult
-import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import org.jetbrains.anko.doAsync
 import java.util.concurrent.CompletableFuture
 
 class AugmentedTrophyFragment: ArFragment() {
 
-    //private var trophyRenderable: ModelRenderable? = null
-    //private var name: String? = null
-    //private val DOUBLE_CLICK_TIME_DELTA: Long = 300// milliseconds
     private var renderable: ModelRenderable? = null
-    private var arFragment: ArFragment? = null
     private var renderableFuture: CompletableFuture<ModelRenderable>? = null
     private val trophyUri = Uri.parse("trophyobjectfile.sfb")
     private var screenX: Int? = null

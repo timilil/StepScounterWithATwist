@@ -60,7 +60,6 @@ class StatisticsFragment: Fragment() {
         val series = LineGraphSeries<DataPoint>()
         val map = sortedMapOf<String, Int>()
         for (i in 1..days) {
-            //map.put(date.minusDays(i.toLong()).format(formatter), getSteps(date.minusDays(i.toLong()).format(formatter)))
             map[date.minusDays(i.toLong()).format(formatter)] = getSteps(date.minusDays(i.toLong()).format(formatter))
         }
         map.forEach { (key, value) ->
