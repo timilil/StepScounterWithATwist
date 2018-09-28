@@ -45,9 +45,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val formattedDate = date.format(formatter)
 
-    private val map = hashMapOf<String, Int>()
-    private val series = LineGraphSeries<DataPoint>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val preferences = getSharedPreferences("pref_settings", Context.MODE_PRIVATE)
         val useTheme = preferences.getString("pref_settings", "N/A")
@@ -70,26 +67,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             ActivityCompat.requestPermissions(this,
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),0
             )
-        }
-
-        sm = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sStepDetector = sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-        // check there is step_detector sensor in the used device
-        // if sensor exists, register listener and add observer
-        // else inform user there is no sensor needed
-        if (sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null ) {
-            sm.registerListener(this, sStepDetector, SensorManager.SENSOR_DELAY_NORMAL)
-            // TODO use preferences to let user chose step goal for the day
-            StepDB.get(this).stepDao().getTodaysSteps(formattedDate).observe(this, Observer {
-                txtStepsToday.text = it.toString()
-                progressbar.progress = if (it != null)
-                    it.toString().toInt() / 100
-                else 0
-            })
-        }
-        else {
-            // TODO inform user there is no sensor and do something maybe
-            Log.d("TAG", "You don't have required sensor(STEP_DETECTOR) in your phone!")
         }
 
         setContentView(R.layout.activity_main)
@@ -123,6 +100,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("TAG", "FUUUU")
+        sm = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sStepDetector = sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+        // check there is step_detector sensor in the used device
+        // if sensor exists, register listener and add observer
+        // else inform user there is no sensor needed
+        if (sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR) != null ) {
+            sm.registerListener(this, sStepDetector, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+        else {
+            // TODO inform user there is no sensor and do something maybe
+            Log.d("TAG", "You don't have required sensor(STEP_DETECTOR) in your phone!")
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         pref!!.unregisterOnSharedPreferenceChangeListener(listener)
