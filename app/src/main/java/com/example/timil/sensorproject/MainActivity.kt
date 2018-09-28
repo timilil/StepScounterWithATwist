@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
                     arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),0
             )
         }
-        
+
         sm = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sStepDetector = sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
         // check there is step_detector sensor in the used device
