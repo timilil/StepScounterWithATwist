@@ -179,12 +179,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         StepDB.get(this).stepDao().insert(Step(sid, steps))
     }
 
-    private fun getStepHistory(days: Int){
-        for (i in 1..days) {
-            map.put(date.minusDays(i.toLong()).format(formatter), getSteps(date.minusDays(i.toLong()).format(formatter)))
-        }
-    }
-
     private fun getSteps(date: String): Int{
         when (StepDB.get(this).stepDao().getSteps(date)?.steps != null){
             true -> return StepDB.get(this).stepDao().getSteps(date)!!.steps

@@ -2,10 +2,11 @@ package com.example.timil.sensorproject.models
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
+import com.example.timil.sensorproject.database.StepDB
+import com.example.timil.sensorproject.entities.Step
 
 class StepModel(application: Application): AndroidViewModel(application){
-    //private val steps: LiveData<Step> = StepDB.get(getApplication()).stepDao().getAll()
+    private val steps: List<Step?> = StepDB.get(getApplication()).stepDao().getAllSteps()
 
-    //fun getSteps() = steps
+    fun getAllSteps() = steps
 }
