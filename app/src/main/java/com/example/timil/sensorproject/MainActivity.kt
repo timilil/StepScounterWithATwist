@@ -30,6 +30,7 @@ import com.example.timil.sensorproject.fragments.*
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.home_fragment.*
+import org.jetbrains.anko.doAsync
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -137,16 +138,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
     override fun onSensorChanged(event: SensorEvent) {
         // TODO steps in sharedprefs and use that in if
-        if (getSteps(formattedDate) == 10000){
-            val notification = NotificationCompat.Builder(this, "Channel_id")
-                    .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setContentTitle("Nice Job!")
-                    .setContentText("You reached your step goal of the day")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .build()
-            NotificationManagerCompat.from(this).notify(1, notification)
+        doAsync {
+            if (getSteps(formattedDate) == 10000) {
+                val notification = NotificationCompat.Builder(this@MainActivity, "Channel_id")
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setContentTitle("Nice Job!")
+                        .setContentText("You reached your step goal of the day")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .build()
+                NotificationManagerCompat.from(this@MainActivity).notify(1, notification)
+            }
+            saveSteps(formattedDate, getSteps(formattedDate) + 1)
         }
-        saveSteps(formattedDate, getSteps(formattedDate) +1)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

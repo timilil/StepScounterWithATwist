@@ -20,7 +20,7 @@ abstract class StepDB: RoomDatabase(){
             if (sInstance == null){
                 sInstance =
                         Room.databaseBuilder(context.applicationContext,
-                                StepDB::class.java, "step.db").allowMainThreadQueries().build()
+                                StepDB::class.java, "step.db").build()
             }
             return sInstance!!
         }

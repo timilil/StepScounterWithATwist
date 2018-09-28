@@ -14,6 +14,8 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.statistics_fragment.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.support.v4.UI
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -26,6 +28,7 @@ class StatisticsFragment: Fragment() {
     private val date = LocalDateTime.now()
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val graphFormatter = SimpleDateFormat.getDateInstance()
+    private var allTimeSteps = 0
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +44,20 @@ class StatisticsFragment: Fragment() {
 
         graph.gridLabelRenderer.labelFormatter = DateAsXAxisLabelFormatter(context!!, graphFormatter)
         graph.gridLabelRenderer.setHorizontalLabelsAngle(90)
+        graph.gridLabelRenderer.labelsSpace = 15
         graph.gridLabelRenderer.reloadStyles()
 
-        val ump = ViewModelProviders.of(this).get(StepModel::class.java)
-        val allSteps = ump.getAllSteps()
-        var allTimeSteps = 0
-        allSteps.forEach {
-            allTimeSteps += it.toString().toInt()
+        doAsync {
+            val ump = ViewModelProviders.of(this@StatisticsFragment).get(StepModel::class.java)
+            val allSteps = ump.getAllSteps()
+            allSteps.forEach {
+                allTimeSteps += it.toString().toInt()
+            }
+            getStepHistory(31)
         }
-
-        txtAllTimeSteps.text = allTimeSteps.toString()
-
-        getStepHistory(31)
-
+        UI {
+            txtAllTimeSteps.text = allTimeSteps.toString()
+        }
     }
 
     private fun getStepHistory(days: Int){
