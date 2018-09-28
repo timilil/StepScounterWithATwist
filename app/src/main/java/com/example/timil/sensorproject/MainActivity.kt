@@ -1,5 +1,7 @@
 package com.example.timil.sensorproject
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,6 +15,8 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Menu
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             )
         }
 
+        createNotificationChannel()
         sm = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sStepDetector = sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
         // check there is step_detector sensor in the used device
@@ -124,6 +129,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     }
 
     override fun onSensorChanged(event: SensorEvent) {
+        // TODO steps in sharedprefs and use that in if
+        if (getSteps(formattedDate) == 10000){
+            val notification = NotificationCompat.Builder(this, "Channel_id")
+                    .setSmallIcon(R.mipmap.ic_launcher_round)
+                    .setContentTitle("My app notification")
+                    .setContentText("Description")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .build()
+            NotificationManagerCompat.from(this).notify(1, notification)
+        }
         saveSteps(formattedDate, getSteps(formattedDate) +1)
     }
 
@@ -181,7 +196,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         return android.graphics.Point(vw.width / 2, vw.height / 2)
     }
 
-
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Name"
+            val description = "Description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("Channel_id", name, importance)
+            channel.description = description
+            val manager = getSystemService(NotificationManager::class.java) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
+    }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
