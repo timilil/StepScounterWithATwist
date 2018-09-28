@@ -133,8 +133,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         if (getSteps(formattedDate) == 10000){
             val notification = NotificationCompat.Builder(this, "Channel_id")
                     .setSmallIcon(R.mipmap.ic_launcher_round)
-                    .setContentTitle("My app notification")
-                    .setContentText("Description")
+                    .setContentTitle("Nice Job!")
+                    .setContentText("You reached your step goal of the day")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .build()
             NotificationManagerCompat.from(this).notify(1, notification)
