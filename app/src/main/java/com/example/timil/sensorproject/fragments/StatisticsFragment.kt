@@ -25,7 +25,7 @@ class StatisticsFragment: Fragment() {
 
     private val date = LocalDateTime.now()
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    private val graphFormatter = SimpleDateFormat("dd.MM")
+    private val graphFormatter = SimpleDateFormat.getDateInstance()
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,27 +39,20 @@ class StatisticsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        graph.getViewport().setXAxisBoundsManual(true)
-
         graph.gridLabelRenderer.labelFormatter = DateAsXAxisLabelFormatter(context!!, graphFormatter)
         graph.gridLabelRenderer.setHorizontalLabelsAngle(90)
-        graph.viewport.isScalable = true
-        graph.viewport.isScrollable = true
         graph.gridLabelRenderer.reloadStyles()
 
         val ump = ViewModelProviders.of(this).get(StepModel::class.java)
         val allSteps = ump.getAllSteps()
         var allTimeSteps = 0
         allSteps.forEach {
-            allTimeSteps = allTimeSteps + it.toString().toInt()
+            allTimeSteps += it.toString().toInt()
         }
 
         txtAllTimeSteps.text = allTimeSteps.toString()
 
-        month.setOnClickListener {
-            getStepHistory(31)
-        }
+        getStepHistory(31)
 
     }
 
@@ -67,7 +60,8 @@ class StatisticsFragment: Fragment() {
         val series = LineGraphSeries<DataPoint>()
         val map = sortedMapOf<String, Int>()
         for (i in 1..days) {
-            map.put(date.minusDays(i.toLong()).format(formatter), getSteps(date.minusDays(i.toLong()).format(formatter)))
+            //map.put(date.minusDays(i.toLong()).format(formatter), getSteps(date.minusDays(i.toLong()).format(formatter)))
+            map[date.minusDays(i.toLong()).format(formatter)] = getSteps(date.minusDays(i.toLong()).format(formatter))
         }
         map.forEach { (key, value) ->
             val split = key.split("-")
@@ -78,16 +72,16 @@ class StatisticsFragment: Fragment() {
         }
 
         graph.title = date.month.toString()
-        graph.gridLabelRenderer.numHorizontalLabels = days
+        graph.gridLabelRenderer.numHorizontalLabels = days / 2
         graph.viewport.setMaxX(series.highestValueX)
         graph.viewport.setMinX(series.lowestValueX)
         graph.addSeries(series)
     }
 
     private fun getSteps(date: String): Int {
-        when (StepDB.get(context!!).stepDao().getSteps(date)?.steps != null) {
-            true -> return StepDB.get(context!!).stepDao().getSteps(date)!!.steps
-            false -> return 0
+        return when (StepDB.get(context!!).stepDao().getSteps(date)?.steps != null) {
+            true -> StepDB.get(context!!).stepDao().getSteps(date)!!.steps
+            false -> 0
         }
     }
 
