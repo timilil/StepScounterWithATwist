@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     private val formattedDate = date.format(formatter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // bind shared preference values the first time app is created
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
         val preferences = getSharedPreferences("pref_settings", Context.MODE_PRIVATE)
         val useTheme = preferences.getString("pref_settings", "N/A")
 
@@ -93,18 +95,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         //Log.d("DBG", pref!!.getString("pref_settings", "N/A"))
 
         listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
-            Log.d("DBG", prefs.getString(key, "N/A")+key)
 
+            // check if key value already exists
+            if (key == "pref_settings") {
+                Log.d("DBG", prefs.getString(key, "N/A") + key)
+                val editor = getSharedPreferences("pref_settings", Context.MODE_PRIVATE).edit()
+                editor.putString(key, prefs.getString(key, "N/A"))
+                editor.apply()
+
+                val intent = intent
+                finish()
+
+                startActivity(intent)
+            }
             //setTheme(R.style.AppGreenTheme)
             //recreate()
-            val editor = getSharedPreferences("pref_settings", Context.MODE_PRIVATE).edit()
-            editor.putString(key, prefs.getString(key, "N/A"))
-            editor.apply()
 
-            val intent = intent
-            finish()
 
-            startActivity(intent)
         }
         pref!!.registerOnSharedPreferenceChangeListener(listener)
 

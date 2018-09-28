@@ -86,12 +86,21 @@ class MapFragment: Fragment() {
                         //Log.d("DBG", "left: "+(10-db.trophyDao().getAllOld().size))
                         val addItemsToDbCount = 10-db.trophyDao().getAllOld().size
                         for (i in 0..addItemsToDbCount){
-                            val radius = Random()
-                            val minRange = 1000
-                            val maxRange = 8000
-                            val result = radius.nextInt(maxRange - minRange) + minRange
-                            addTrophyWithRandomLocationToDb(task.result.longitude, task.result.latitude, result)
-                            //Log.d("DBG", "result: "+result)
+                            val resultRange = randomTrophyRange(1000, 8000)
+                            addTrophyWithRandomLocationToDb(task.result.longitude, task.result.latitude, resultRange)
+                            //Log.d("DBG", "result is: "+addTrophyWithRandomLocationToDb(task.result.longitude, task.result.latitude, resultRange))
+                        }
+                    } else {
+                        for (i in 0 until db.trophyDao().getAllOld().size){
+                            Log.d("DBG", "here is "+db.trophyDao().getAllOld()[i].toString())
+
+                            val distanceInMeters = getDistanceToTrophy(task.result.latitude, task.result.longitude, db.trophyDao().getAllOld()[i].latitude, db.trophyDao().getAllOld()[i].longitude )
+                            if (distanceInMeters > 8000) {
+                                Log.d("DBG", "distance is too large, spawning another one $distanceInMeters")
+                                db.trophyDao().delete(db.trophyDao().getAllOld()[i])
+                                val resultRange = randomTrophyRange(1000, 8000)
+                                addTrophyWithRandomLocationToDb(task.result.longitude, task.result.latitude, resultRange)
+                            }
                         }
                     }
                     UI {
@@ -121,15 +130,7 @@ class MapFragment: Fragment() {
                                         Log.d("DBG", "Clicked "+item.point.latitude)
 
                                         //if user is close to this item/walked distance is more than something: add the ar view so collect price...
-                                        val myCurrentLocation = Location("")
-                                        myCurrentLocation.latitude = task.result.latitude
-                                        myCurrentLocation.longitude = task.result.longitude
-
-                                        val clickedMarkerLocation = Location("")
-                                        clickedMarkerLocation.latitude = item.point.latitude
-                                        clickedMarkerLocation.longitude = item.point.longitude
-
-                                        val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
+                                        val distanceInMeters = getDistanceToTrophy(task.result.latitude, task.result.longitude, item.point.latitude, item.point.longitude )
                                         if(distanceInMeters < 150.0){
                                             activityCallBack!!.onTrophyClick(item.title.toLong(), item.point.latitude, item.point.longitude)
                                         } else {
@@ -177,4 +178,23 @@ class MapFragment: Fragment() {
         val db = TrophyDB.get(context!!)
         db.trophyDao().insert(Trophy(0, foundLatitude, foundLongitude))
     }
+
+    private fun randomTrophyRange(minRange: Int, maxRange: Int): Int {
+        val radius = Random()
+        return radius.nextInt(maxRange - minRange) + minRange
+    }
+
+    private fun getDistanceToTrophy(myLocationLat: Double, myLocationLong: Double, trophyLocationLat: Double, trophyLocationLong: Double ) : Float {
+        val myCurrentLocation = Location("")
+        myCurrentLocation.latitude = myLocationLat
+        myCurrentLocation.longitude = myLocationLong
+
+        val clickedMarkerLocation = Location("")
+        clickedMarkerLocation.latitude = trophyLocationLat
+        clickedMarkerLocation.longitude = trophyLocationLong
+
+        val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
+        return distanceInMeters
+    }
+
 }
