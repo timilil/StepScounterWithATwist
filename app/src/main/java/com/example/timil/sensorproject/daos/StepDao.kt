@@ -6,8 +6,8 @@ import com.example.timil.sensorproject.entities.Step
 
 @Dao
 interface StepDao{
-    @Query("SELECT * FROM step")
-    fun getAllSteps(): List<Step?>
+    @Query("SELECT SUM(steps) FROM step")
+    fun getAllSteps(): LiveData<Int>
 
     @Query("SELECT * FROM step WHERE step.sid = :today")
     fun getSteps(today: String): Step?

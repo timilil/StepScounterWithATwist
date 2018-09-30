@@ -2,7 +2,6 @@ package com.example.timil.sensorproject
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -27,9 +26,6 @@ import android.view.View
 import com.example.timil.sensorproject.database.StepDB
 import com.example.timil.sensorproject.entities.Step
 import com.example.timil.sensorproject.fragments.*
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
-import kotlinx.android.synthetic.main.home_fragment.*
 import org.jetbrains.anko.doAsync
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -195,9 +191,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     }
 
     private fun getSteps(date: String): Int{
-        when (StepDB.get(this).stepDao().getSteps(date)?.steps != null){
-            true -> return StepDB.get(this).stepDao().getSteps(date)!!.steps
-            false -> return 0
+        return when (StepDB.get(this).stepDao().getSteps(date)?.steps != null){
+            true -> StepDB.get(this).stepDao().getSteps(date)!!.steps
+            false -> 0
         }
     }
 
