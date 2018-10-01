@@ -49,6 +49,8 @@ class StatisticsFragment: Fragment() {
             StepDB.get(context!!).stepDao().getAllSteps().observe(this@StatisticsFragment, android.arch.lifecycle.Observer {
                 txtAllTimeSteps.text = it.toString()
             })
+            points.text = ScoreDB.get(context!!).scoreDao().getScore()[0].points.toString()
+            trophyCount.text = ScoreDB.get(context!!).scoreDao().getScore()[0].trophies.toString()
             getStepHistory(30)
         }
     }

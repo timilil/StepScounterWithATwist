@@ -69,7 +69,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
         super.onCreate(savedInstanceState)
 
-        doAsync { initializeScoreDB() }
+        doAsync {
+            if(ScoreDB.get(this@MainActivity).scoreDao().getScore().isEmpty()){
+                initializeScoreDB()
+            }
+        }
 
         if ((/*Build.VERSION.SDK_INT >= 23 &&*/
                         ContextCompat.checkSelfPermission(this,
@@ -105,6 +109,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
             // check if key value already exists
             if (key == THEME_PREF) {
+
+                //create new intent to reload theme changes
                 Log.d("DBG", prefs.getString(key, "N/A") + key)
                 val editor = getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE).edit()
                 editor.putString(key, prefs.getString(key, "N/A"))
@@ -197,6 +203,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         snack.setAction("CLOSE", {})
         snack.setActionTextColor(Color.WHITE)
         snack.show()
+        doAsync {
+            val trophyCount = ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].trophies
+            ScoreDB.get(this@MainActivity).scoreDao().updateTrophyCount(trophyCount+1)
+            val points = ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].points
+            ScoreDB.get(this@MainActivity).scoreDao().updatePoints(points+500)
+        }
     }
 
     private fun saveSteps(sid: String, steps: Int){

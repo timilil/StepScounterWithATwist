@@ -131,7 +131,7 @@ class MapFragment: Fragment() {
 
                                         //if user is close to this item/walked distance is more than something: add the ar view so collect price...
                                         val distanceInMeters = getDistanceToTrophy(task.result.latitude, task.result.longitude, item.point.latitude, item.point.longitude )
-                                        if(distanceInMeters < 150.0){
+                                        if(distanceInMeters < 8050.0){
                                             activityCallBack!!.onTrophyClick(item.title.toLong(), item.point.latitude, item.point.longitude)
                                         } else {
                                             Toast.makeText(context, "Get closer to the target, your distance must be less than 150 m (distance is "+distanceInMeters.toInt()+" meters)", Toast.LENGTH_SHORT).show()
