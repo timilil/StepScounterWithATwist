@@ -86,8 +86,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             sm.registerListener(this, sStepDetector, SensorManager.SENSOR_DELAY_NORMAL)
         }
         else {
-            // TODO inform user there is no sensor and do something maybe
-            Log.d("TAG", "You don't have required sensor(STEP_DETECTOR) in your phone!")
+            val snack = Snackbar.make(container, "You don't have required sensor(STEP_DETECTOR) in your phone!", Snackbar.LENGTH_LONG)
+            snack.setAction("CLOSE", {})
+            snack.setActionTextColor(Color.WHITE)
+            snack.show()
         }
 
         setContentView(R.layout.activity_main)
@@ -108,9 +110,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
                 finish()
 
                 startActivity(intent)
-            }
-            if (key == "pref_goal"){
-                Log.d("DBG", prefs.getString(key, "N/A") + key)
             }
             //setTheme(R.style.AppGreenTheme)
             //recreate()
@@ -140,9 +139,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     }
 
     override fun onSensorChanged(event: SensorEvent) {
-        // TODO steps in sharedprefs and use that in if
         doAsync {
-            if (getSteps(formattedDate) == 10000) {
+            if (getSteps(formattedDate) == pref!!.getString("pref_goal", "N/A").toInt()*100) {
                 val notification = NotificationCompat.Builder(this@MainActivity, "Channel_id")
                         .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Nice Job!")
