@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.timil.sensorproject.R
+import com.example.timil.sensorproject.database.ScoreDB
 import com.example.timil.sensorproject.database.StepDB
+import com.example.timil.sensorproject.entities.Score
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -90,4 +92,26 @@ class StatisticsFragment: Fragment() {
 
     private fun LocalDate.toDate(): Date = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
+    private fun getScore(){
+        val score = ScoreDB.get(context!!).scoreDao().getScore()
+        Log.d("TAG", "Score: $score")
+    }
+
+    /*
+    private fun insertScore(level: Int, points: Int, trophies: Int){
+        ScoreDB.get(context!!).scoreDao().insert(Score(0, level, points, trophies))
+    }
+    */
+
+    private fun updateLevel(level: Int){
+        ScoreDB.get(context!!).scoreDao().updateLevel(level)
+    }
+
+    private fun updatePoints(points: Int){
+        ScoreDB.get(context!!).scoreDao().updatePoints(points)
+    }
+
+    private fun updateTrophyCount(count: Int){
+        ScoreDB.get(context!!).scoreDao().updateTrophyCount(count)
+    }
 }

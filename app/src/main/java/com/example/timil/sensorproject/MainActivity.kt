@@ -25,7 +25,9 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.example.timil.sensorproject.database.ScoreDB
 import com.example.timil.sensorproject.database.StepDB
+import com.example.timil.sensorproject.entities.Score
 import com.example.timil.sensorproject.entities.Step
 import com.example.timil.sensorproject.fragments.*
 import org.jetbrains.anko.doAsync
@@ -66,6 +68,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         }
 
         super.onCreate(savedInstanceState)
+
+        doAsync { initializeScoreDB() }
 
         if ((/*Build.VERSION.SDK_INT >= 23 &&*/
                         ContextCompat.checkSelfPermission(this,
@@ -221,6 +225,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             val manager = getSystemService(NotificationManager::class.java) as NotificationManager
             manager.createNotificationChannel(channel)
         }
+    }
+
+    private fun initializeScoreDB(){
+        ScoreDB.get(this).scoreDao().insert(Score(0, 0, 0, 0))
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
