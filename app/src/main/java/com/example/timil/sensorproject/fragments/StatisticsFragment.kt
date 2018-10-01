@@ -47,25 +47,34 @@ class StatisticsFragment: Fragment() {
             StepDB.get(context!!).stepDao().getAllSteps().observe(this@StatisticsFragment, android.arch.lifecycle.Observer {
                 txtAllTimeSteps.text = it.toString()
             })
-            getStepHistory(31)
+            getStepHistory(30)
         }
     }
 
     private fun getStepHistory(days: Int){
         val series = LineGraphSeries<DataPoint>()
-        val map = sortedMapOf<String, Int>()
+        val mapLast = sortedMapOf<String, Int>()
+        val mapThis = sortedMapOf<String, Int>()
         for (i in 1..days) {
-            map[date.minusDays(i.toLong()).format(formatter)] = getSteps(date.minusDays(i.toLong()).format(formatter))
-        }
-        map.forEach { (key, value) ->
-            val split = key.split("-")
-            val dateDB = LocalDate.parse(key, formatter)
-            if (split[1] == "0"+date.monthValue.toString()){
-                series.appendData(DataPoint(dateDB.toDate(), value.toDouble()), false, days)
+            val split = date.minusDays(i.toLong()).format(formatter).split("-")
+
+            if (split[1] == "0"+date.minusMonths(1).monthValue.toString()){
+                mapLast[date.minusDays(i.toLong()).format(formatter)] = getSteps(date.minusDays(i.toLong()).format(formatter))
+            }
+            else if (split[1] == "0"+date.monthValue.toString()){
+                mapThis[date.minusDays(i.toLong()).format(formatter)] = getSteps(date.minusDays(i.toLong()).format(formatter))
             }
         }
+        mapLast.forEach { key, value ->
+            val dateDB = LocalDate.parse(key, formatter)
+            series.appendData(DataPoint(dateDB.toDate(), value.toDouble()), false, days)
+        }
+        mapThis.forEach { key, value ->
+            val dateDB = LocalDate.parse(key, formatter)
+            series.appendData(DataPoint(dateDB.toDate(), value.toDouble()), false, days)
+        }
 
-        graph.title = date.month.toString()
+        graph.title = context!!.resources.getString(R.string.last_30_days)
         graph.gridLabelRenderer.numHorizontalLabels = days / 2
         graph.viewport.setMaxX(series.highestValueX)
         graph.viewport.setMinX(series.lowestValueX)

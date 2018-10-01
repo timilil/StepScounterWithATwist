@@ -9,6 +9,7 @@
     <string name="default_value">Black</string>
     <string name="theme_summary">Change the application color theme</string>
     <string name="pref_settings">pref_settings</string>
+    <string name="last_30_days">Last 30 days</string>
 
     <string-array name="entries_array">
         <item>Black</item>
