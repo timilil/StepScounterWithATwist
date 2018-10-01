@@ -6,22 +6,47 @@
     <string name="settings">Settings</string>
     <string name="settings_theme">Theme</string>
     <string name="preferences">Preferences</string>
-    <string name="default_value">Black</string>
+    <string name="default_theme_value">AppTheme</string>
     <string name="theme_summary">Change the application color theme</string>
+<<<<<<< HEAD
     <string name="pref_settings">pref_settings</string>
     <string name="last_30_days">Last 30 days</string>
+=======
+    <string name="pref_theme_settings">pref_theme_settings</string>
+>>>>>>> 094f0fbea7d5c3d5501f9ef55b375c967abdb3d1
 
-    <string-array name="entries_array">
+    <string name="daygoal">Step Goal</string>
+    <string name="default_goal_value">100</string>
+    <string name="goal_summary">Change your step goal for the day</string>
+    <string name="pref_goal_settings">pref_goal</string>
+
+    <string-array name="theme_entries_array">
         <item>Black</item>
         <item>Blue</item>
         <item>Green</item>
         <item>Red</item>
     </string-array>
 
-    <string-array name="entry_values_array">
+    <string-array name="theme_entry_values_array">
         <item>AppTheme</item>
         <item>AppBlueTheme</item>
         <item>AppGreenTheme</item>
         <item>AppRedTheme</item>
+    </string-array>
+
+    <string-array name="progress_entries_array">
+        <item>5000 steps</item>
+        <item>7500 steps</item>
+        <item>10000 steps</item>
+        <item>12500 steps</item>
+        <item>15000 steps</item>
+    </string-array>
+
+    <string-array name="progress_entry_values_array">
+        <item>50</item>
+        <item>75</item>
+        <item>100</item>
+        <item>125</item>
+        <item>150</item>
     </string-array>
 </resources>

@@ -2,11 +2,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:key="@string/pref_settings"
+        android:key="@string/pref_theme_settings"
         android:title="@string/settings_theme"
-        android:entries="@array/entries_array"
-        android:entryValues="@array/entry_values_array"
-        android:defaultValue="@string/default_value"
+        android:entries="@array/theme_entries_array"
+        android:entryValues="@array/theme_entry_values_array"
+        android:defaultValue="@string/default_theme_value"
         android:summary="@string/theme_summary"/>
+
+    <ListPreference
+        android:key="@string/pref_goal_settings"
+        android:title="@string/daygoal"
+        android:entries="@array/progress_entries_array"
+        android:entryValues="@array/progress_entry_values_array"
+        android:defaultValue="@string/default_goal_value"
+        android:summary="@string/goal_summary"/>
 
 </PreferenceScreen>

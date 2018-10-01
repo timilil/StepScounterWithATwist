@@ -32,6 +32,7 @@ import org.jetbrains.anko.doAsync
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+const val THEME_PREF = "pref_theme_settings"
 
 class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFragmentTrophyClickListener, AugmentedTrophyFragment.AugmentedFragmentTrophyClickListener {
 
@@ -51,8 +52,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     override fun onCreate(savedInstanceState: Bundle?) {
         // bind shared preference values the first time app is created
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
-        val preferences = getSharedPreferences("pref_settings", Context.MODE_PRIVATE)
-        val useTheme = preferences.getString("pref_settings", "N/A")
+
+        val themePreference = getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE)
+        val useTheme = themePreference.getString(THEME_PREF, "N/A")
 
         Log.d("DBG", "Using theme: "+useTheme)
         when(useTheme){
@@ -65,7 +67,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
         super.onCreate(savedInstanceState)
 
-        if ((Build.VERSION.SDK_INT >= 23 &&
+        if ((/*Build.VERSION.SDK_INT >= 23 &&*/
                         ContextCompat.checkSelfPermission(this,
                                 android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED)) {
@@ -96,9 +98,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
 
             // check if key value already exists
-            if (key == "pref_settings") {
+            if (key == THEME_PREF) {
                 Log.d("DBG", prefs.getString(key, "N/A") + key)
-                val editor = getSharedPreferences("pref_settings", Context.MODE_PRIVATE).edit()
+                val editor = getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE).edit()
                 editor.putString(key, prefs.getString(key, "N/A"))
                 editor.apply()
 
@@ -106,6 +108,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
                 finish()
 
                 startActivity(intent)
+            }
+            if (key == "pref_goal"){
+                Log.d("DBG", prefs.getString(key, "N/A") + key)
             }
             //setTheme(R.style.AppGreenTheme)
             //recreate()
