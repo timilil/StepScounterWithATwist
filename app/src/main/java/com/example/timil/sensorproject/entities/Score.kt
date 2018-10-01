@@ -9,8 +9,9 @@ data class Score(
         val id: Int,
         val level: Int,
         val points: Int,
-        val trophies: Int
+        val trophies: Int,
+        val nextLevel: Int
 )
 {
-    override fun toString(): String = "$id $level $points $trophies"
+    override fun toString(): String = "$id $level $points $trophies $nextLevel"
 }

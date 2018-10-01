@@ -240,7 +240,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     }
 
     private fun initializeScoreDB(){
-        ScoreDB.get(this).scoreDao().insert(Score(0, 0, 0, 0))
+        ScoreDB.get(this).scoreDao().insert(Score(0, 0, 0, 0, 1000))
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

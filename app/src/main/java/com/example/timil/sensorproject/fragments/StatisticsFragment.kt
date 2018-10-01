@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.example.timil.sensorproject.R
 import com.example.timil.sensorproject.database.ScoreDB
 import com.example.timil.sensorproject.database.StepDB
-import com.example.timil.sensorproject.entities.Score
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -49,8 +48,15 @@ class StatisticsFragment: Fragment() {
             StepDB.get(context!!).stepDao().getAllSteps().observe(this@StatisticsFragment, android.arch.lifecycle.Observer {
                 txtAllTimeSteps.text = it.toString()
             })
-            points.text = ScoreDB.get(context!!).scoreDao().getScore()[0].points.toString()
-            trophyCount.text = ScoreDB.get(context!!).scoreDao().getScore()[0].trophies.toString()
+            ScoreDB.get(context!!).scoreDao().getLiveScore().observe(this@StatisticsFragment, android.arch.lifecycle.Observer {
+                doAsync {
+                    if (it!![0].points >= it[0].nextLevel){
+                        updateNextLevel((it[0].nextLevel * 1.1).toInt())
+                    }
+                }
+                points.text = it!![0].points.toString()
+                trophyCount.text = it[0].trophies.toString()
+            })
             getStepHistory(30)
         }
     }
@@ -115,5 +121,9 @@ class StatisticsFragment: Fragment() {
 
     private fun updateTrophyCount(count: Int){
         ScoreDB.get(context!!).scoreDao().updateTrophyCount(count)
+    }
+
+    private fun updateNextLevel(count: Int){
+        ScoreDB.get(context!!).scoreDao().updateNextLevel(count)
     }
 }
