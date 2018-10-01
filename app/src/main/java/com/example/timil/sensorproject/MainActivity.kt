@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -13,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -184,6 +186,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
     override fun onARTrophyClick() {
         supportFragmentManager.popBackStack()
+        val snack = Snackbar.make(container, "Trophy collected! Added +500 points to high score!", Snackbar.LENGTH_LONG)
+        snack.setAction("CLOSE", {})
+        snack.setActionTextColor(Color.WHITE)
+        snack.show()
     }
 
     private fun saveSteps(sid: String, steps: Int){
