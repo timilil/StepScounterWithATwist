@@ -8,12 +8,10 @@
     <string name="preferences">Preferences</string>
     <string name="default_theme_value">AppTheme</string>
     <string name="theme_summary">Change the application color theme</string>
-<<<<<<< HEAD
+
     <string name="pref_settings">pref_settings</string>
     <string name="last_30_days">Last 30 days</string>
-=======
     <string name="pref_theme_settings">pref_theme_settings</string>
->>>>>>> 094f0fbea7d5c3d5501f9ef55b375c967abdb3d1
 
     <string name="daygoal">Step Goal</string>
     <string name="default_goal_value">100</string>
