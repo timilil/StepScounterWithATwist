@@ -1,7 +1,9 @@
 package com.example.timil.sensorproject.fragments
 
 import android.arch.lifecycle.Observer
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ class HomeFragment: Fragment() {
     private val date = LocalDateTime.now()
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val formattedDate = date.format(formatter)
+    private var pref: SharedPreferences? = null
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +28,14 @@ class HomeFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        // TODO use preferences to let user chose step goal for the day
+        pref = PreferenceManager.getDefaultSharedPreferences(context)
         StepDB.get(context!!).stepDao().getTodaysSteps(formattedDate).observe(this, Observer {
             txtStepsToday.text = it.toString()
             progressbar.progress = if (it != null)
-                it.toString().toInt() / 100
+                it.toString().toInt() / pref!!.getString("pref_goal", "N/A").toInt()
             else 0
         })
 
-        Log.d("DBG", "Home fragment create view ")
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
