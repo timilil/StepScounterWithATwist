@@ -18,9 +18,12 @@ abstract class StepDB: RoomDatabase(){
         @Synchronized
         fun get(context: Context): StepDB {
             if (sInstance == null){
+
+                // allowMainThreadQueries = bad practise but it was the only way we could get the graph data
+                // shown without sometimes crashing. See StatisticsFragment line 74
                 sInstance =
                         Room.databaseBuilder(context.applicationContext,
-                                StepDB::class.java, "step.db").build()
+                                StepDB::class.java, "step.db").allowMainThreadQueries().build()
             }
             return sInstance!!
         }

@@ -150,7 +150,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
     override fun onSensorChanged(event: SensorEvent) {
         doAsync {
-            if (getSteps(formattedDate) == pref!!.getString("pref_goal", "N/A").toInt()*100) {
+            val steps = getSteps(formattedDate)
+            if (steps == pref!!.getString("pref_goal", "N/A").toInt()*100) {
                 val notification = NotificationCompat.Builder(this@MainActivity, "Channel_id")
                         .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Nice Job!")
@@ -159,7 +160,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
                         .build()
                 NotificationManagerCompat.from(this@MainActivity).notify(1, notification)
             }
-            saveSteps(formattedDate, getSteps(formattedDate) + 1)
+            if (steps % 5 == 0){
+                Log.d("DBG", "step $steps")
+                ScoreDB.get(this@MainActivity).scoreDao().updatePoints(ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].points+1)
+            }
+            saveSteps(formattedDate, steps + 1)
         }
     }
 

@@ -9,6 +9,9 @@ interface StepDao{
     @Query("SELECT SUM(steps) FROM step")
     fun getAllSteps(): LiveData<Int>
 
+    @Query("SELECT * FROM step")
+    fun getStepsList(): List<Step>
+
     @Query("SELECT * FROM step WHERE step.sid = :today")
     fun getSteps(today: String): Step?
 
