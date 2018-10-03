@@ -1,6 +1,7 @@
 package com.example.timil.sensorproject.fragments
 
 import android.os.Bundle
+import android.arch.lifecycle.Observer
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,10 +47,10 @@ class StatisticsFragment: Fragment() {
         graph.gridLabelRenderer.reloadStyles()
 
         doAsync {
-            StepDB.get(context!!).stepDao().getAllSteps().observe(this@StatisticsFragment, android.arch.lifecycle.Observer {
+            StepDB.get(context!!).stepDao().getAllSteps().observe(this@StatisticsFragment, Observer {
                 txtAllTimeSteps.text = it.toString()
             })
-            ScoreDB.get(context!!).scoreDao().getLiveScore().observe(this@StatisticsFragment, android.arch.lifecycle.Observer { it ->
+            ScoreDB.get(context!!).scoreDao().getLiveScore().observe(this@StatisticsFragment, Observer { it ->
                 doAsync {
                     if (it!![0].points >= it[0].nextLevel){
                         updateNextLevel((it[0].nextLevel * 1.1).toInt())
