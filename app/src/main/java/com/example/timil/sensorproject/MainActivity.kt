@@ -35,6 +35,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val THEME_PREF = "pref_theme_settings"
+const val GOAL_PREF = "pref_goal"
 
 class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFragmentTrophyClickListener, AugmentedTrophyFragment.AugmentedFragmentTrophyClickListener {
 
@@ -74,12 +75,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             }
         }
 
-        if ((/*Build.VERSION.SDK_INT >= 23 &&*/
+        if (/*Build.VERSION.SDK_INT >= 23 &&*/
                         ContextCompat.checkSelfPermission(this,
                                 android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED)) {
+                        PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
-                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),0
+                    arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.CAMERA),0
             )
         }
 
@@ -109,12 +111,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             // check if key value already exists
             if (key == THEME_PREF) {
 
-                //create new intent to reload theme changes
+                //a pply color changes
                 Log.d("DBG", prefs.getString(key, "N/A") + key)
                 val editor = getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE).edit()
                 editor.putString(key, prefs.getString(key, "N/A"))
                 editor.apply()
 
+                // create new intent with chosen color theme
                 val intent = intent
                 finish()
 
@@ -143,7 +146,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     override fun onSensorChanged(event: SensorEvent) {
         doAsync {
             val steps = getSteps(formattedDate)
-            if (steps == pref!!.getString("pref_goal", "N/A").toInt()*100) {
+            if (steps == pref!!.getString(GOAL_PREF, "N/A").toInt()*100) {
                 val notification = NotificationCompat.Builder(this@MainActivity, "Channel_id")
                         .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Nice Job!")
@@ -181,17 +184,27 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
     override fun onTrophyClick(id: Long, latitude: Double, longitude: Double) {
 
-        val arFragment = AugmentedTrophyFragment()
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(android.Manifest.permission.CAMERA),0
+            )
+        }
 
-        val bundle = Bundle()
-        bundle.putInt("x", getScreenCenter().x)
-        bundle.putInt("y", getScreenCenter().y)
-        bundle.putLong("id", id)
-        bundle.putDouble("latitude", latitude)
-        bundle.putDouble("longitude", longitude)
-        arFragment.arguments = bundle
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED){
+            val arFragment = AugmentedTrophyFragment()
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, arFragment).addToBackStack(null).commit()
+            val bundle = Bundle()
+            bundle.putInt("x", getScreenCenter().x)
+            bundle.putInt("y", getScreenCenter().y)
+            bundle.putLong("id", id)
+            bundle.putDouble("latitude", latitude)
+            bundle.putDouble("longitude", longitude)
+            arFragment.arguments = bundle
+
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, arFragment).addToBackStack(null).commit()
+        }
     }
 
     override fun onARTrophyClick() {

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.timil.sensorproject.GOAL_PREF
 import com.example.timil.sensorproject.R
 import com.example.timil.sensorproject.database.StepDB
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -32,14 +33,13 @@ class HomeFragment: Fragment() {
         StepDB.get(context!!).stepDao().getTodaysSteps(formattedDate).observe(this, Observer {
             txtStepsToday.text = it.toString()
             progressbar.progress = if (it != null)
-                it.toString().toInt() / pref!!.getString("pref_goal", "N/A").toInt()
+                it.toString().toInt() / pref!!.getString(GOAL_PREF, "N/A").toInt()
             else 0
         })
 
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
-    //@RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //set on click listener etc etc
