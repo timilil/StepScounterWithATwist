@@ -15,16 +15,12 @@ import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import kotlinx.android.synthetic.main.statistics_fragment.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.support.v4.UI
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
-import com.example.timil.sensorproject.R.id.graph
-
-
 
 class StatisticsFragment: Fragment() {
 
@@ -58,10 +54,11 @@ class StatisticsFragment: Fragment() {
                     if (it!![0].points >= it[0].nextLevel){
                         updateNextLevel((it[0].nextLevel * 1.1).toInt())
                         updateLevel()
-                        level.text = it[0].level.toString()
                     }
                 }
-                points.text = it!![0].points.toString()
+
+                level.text = it!![0].level.toString()
+                points.text = it[0].points.toString()
                 trophyCount.text = it[0].trophies.toString()
             })
             /*val steps = StepDB.get(context!!).stepDao().getStepsList()
@@ -120,28 +117,9 @@ class StatisticsFragment: Fragment() {
 
     private fun LocalDate.toDate(): Date = Date.from(this.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
-    private fun getScore(){
-        val score = ScoreDB.get(context!!).scoreDao().getScore()
-        Log.d("TAG", "Score: $score")
-    }
-
-    /*
-    private fun insertScore(level: Int, points: Int, trophies: Int){
-        ScoreDB.get(context!!).scoreDao().insert(Score(0, level, points, trophies))
-    }
-    */
-
     private fun updateLevel(){
         val level = ScoreDB.get(context!!).scoreDao().getScore()[0].level+1
         ScoreDB.get(context!!).scoreDao().updateLevel(level)
-    }
-
-    private fun updatePoints(points: Int){
-        ScoreDB.get(context!!).scoreDao().updatePoints(points)
-    }
-
-    private fun updateTrophyCount(count: Int){
-        ScoreDB.get(context!!).scoreDao().updateTrophyCount(count)
     }
 
     private fun updateNextLevel(count: Int){

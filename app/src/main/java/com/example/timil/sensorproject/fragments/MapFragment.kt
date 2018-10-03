@@ -194,8 +194,7 @@ class MapFragment: Fragment() {
         clickedMarkerLocation.latitude = trophyLocationLat
         clickedMarkerLocation.longitude = trophyLocationLong
 
-        val distanceInMeters = myCurrentLocation.distanceTo(clickedMarkerLocation)
-        return distanceInMeters
+        return myCurrentLocation.distanceTo(clickedMarkerLocation)
     }
 
 }

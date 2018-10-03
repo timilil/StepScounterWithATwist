@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         val themePreference = getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE)
         val useTheme = themePreference.getString(THEME_PREF, "N/A")
 
-        Log.d("DBG", "Using theme: "+useTheme)
         when(useTheme){
             "AppTheme" -> setTheme(R.style.AppTheme)
             "AppBlueTheme" -> setTheme(R.style.AppBlueTheme)
@@ -95,7 +94,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         }
         else {
             val snack = Snackbar.make(container, "You don't have required sensor(STEP_DETECTOR) in your phone!", Snackbar.LENGTH_LONG)
-            snack.setAction("CLOSE", {})
+            snack.setAction("CLOSE") {}
             snack.setActionTextColor(Color.WHITE)
             snack.show()
         }
@@ -121,18 +120,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
                 startActivity(intent)
             }
-            //setTheme(R.style.AppGreenTheme)
-            //recreate()
-
 
         }
         pref!!.registerOnSharedPreferenceChangeListener(listener)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        //swsupportFragmentManager.beginTransaction().add(R.id.fragment_container, mapFragment).commit()
-
-        //supportFragmentManager.beginTransaction().hide(mapFragment).commit()
 
         supportFragmentManager.beginTransaction().add(R.id.fragment_container, homeFragment).commit()
 
@@ -205,7 +197,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     override fun onARTrophyClick() {
         supportFragmentManager.popBackStack()
         val snack = Snackbar.make(container, "Trophy collected! Added +500 points to high score!", Snackbar.LENGTH_LONG)
-        snack.setAction("CLOSE", {})
+        snack.setAction("CLOSE") {}
         snack.setActionTextColor(Color.WHITE)
         snack.show()
         doAsync {
@@ -266,12 +258,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             }
             R.id.navigation_dashboard -> {
                 removeFragmentFromBackStack()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, statisticsFragment, "statisticsFragment").commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, statisticsFragment).commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
                 removeFragmentFromBackStack()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment, "mapFragment").commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).commit()
                 return@OnNavigationItemSelectedListener true
             }
         }
