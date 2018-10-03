@@ -248,18 +248,30 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         ScoreDB.get(this).scoreDao().insert(Score(0, 0, 0, 0, 1000))
     }
 
+    private fun removeFragmentFromBackStack(){
+        // check that there is no fragments in back stack when navigating in tab navigator
+        if(supportFragmentManager.backStackEntryCount > 0){
+            // remove fragment to prevent fragment overlapping if back button is pressed
+            supportFragmentManager.beginTransaction().remove(supportFragmentManager.fragments[0]).commit()
+            supportFragmentManager.popBackStack()
+        }
+    }
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
+                removeFragmentFromBackStack()
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, homeFragment).commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_dashboard -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, statisticsFragment).commit()
+                removeFragmentFromBackStack()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, statisticsFragment, "statisticsFragment").commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment).commit()
+                removeFragmentFromBackStack()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, mapFragment, "mapFragment").commit()
                 return@OnNavigationItemSelectedListener true
             }
         }
