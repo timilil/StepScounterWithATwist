@@ -5,7 +5,230 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/walked"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"
+                android:contentDescription="Walked distance image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtAllTimeStepsHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="All steps"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/txtAllTimeSteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="56dp"
+                    android:text="123545234234234234"
+                    android:textSize="40sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtAllTimeStepsHeader"/>
+
+            </LinearLayout>
+
+
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/trophy"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"
+                android:contentDescription="Trophy image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/trophyCountHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="Trophy"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/txtAllTimeStepsHeader"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                    android:id="@+id/trophyCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="40sp"
+                    android:text="12"
+                    app:layout_constraintLeft_toRightOf="@id/txtAllTimeSteps"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/trophyCountHeader" />
+
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/points"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"
+                android:contentDescription="Points gathered image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/pointsHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Points"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtAllTimeSteps"/>
+
+                <TextView
+                    android:id="@+id/points"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="22"
+                    android:textSize="40sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pointsHeader"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/level"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center"
+                android:contentDescription="Level image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/levelHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Level"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@id/pointsHeader"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trophyCount" />
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    android:textSize="40sp"
+                    app:layout_constraintLeft_toRightOf="@id/points"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/levelHeader" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+<!--TextView
+android:id="@+id/trophyCountHeader"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textSize="20sp"
+android:text="Trophy"
+android:textStyle="bold"
+app:layout_constraintLeft_toRightOf="@id/txtAllTimeStepsHeader"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+android:id="@+id/trophyCount"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textSize="40sp"
+android:text="trophytext"
+app:layout_constraintLeft_toRightOf="@id/txtAllTimeSteps"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toBottomOf="@id/trophyCountHeader" />
+
+<TextView
+android:id="@+id/levelHeader"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Level"
+android:textStyle="bold"
+android:textSize="20sp"
+app:layout_constraintLeft_toRightOf="@id/pointsHeader"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/trophyCount" />
+
+<TextView
+android:id="@+id/level"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Level"
+android:textSize="40sp"
+app:layout_constraintLeft_toRightOf="@id/points"
+app:layout_constraintRight_toRightOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/levelHeader" /-->
+
+
+
+
+
+    <!--TextView
         android:id="@+id/txtAllTimeSteps"
         android:layout_width="156dp"
         android:layout_height="70dp"
@@ -31,6 +254,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtAllTimeSteps" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/trophy"
+        tools:layout_editor_absoluteX="215dp"
+        tools:layout_editor_absoluteY="134dp" />
+
     <TextView
         android:id="@+id/trophyCount"
         android:layout_width="84dp"
@@ -44,16 +275,15 @@
 
     <TextView
         android:id="@+id/level"
-        android:layout_width="84dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="12dp"
-        android:textSize="40sp"
+        android:layout_width="87dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
         android:text="0"
-        app:layout_constraintHorizontal_bias="0.873"
+        android:textSize="40sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/trophyCount"
-        app:layout_constraintTop_toBottomOf="@+id/trophyCount" />
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/trophyCount" /-->
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
