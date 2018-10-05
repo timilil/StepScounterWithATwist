@@ -1,6 +1,7 @@
 # StepCounter
 
 Project done with Android Studio and Kotlin.
+<br>
 Application counts daily steps with Android internal sensor (STEP_DETECTOR), saves them to SQLite DB.
 Possibility to collect trophies which are spawned on the map based on the user location. If the location changes more than 8km, the trophies are respawned. Trophy locations are also saved to SQLite.
 Navigation is done with fragments (home fragment, statistics fragment, map fragment, ar fragment and settings fragment)
