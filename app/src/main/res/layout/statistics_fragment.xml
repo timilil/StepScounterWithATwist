@@ -213,7 +213,7 @@ android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:text="Level"
 android:textSize="40sp"
-app:layout_constraintLeft_toRightOf="@id/points"
+app:layout_constraintLeft_toRightOf="@id/experience"
 app:layout_constraintRight_toRightOf="parent"
 app:layout_constraintTop_toBottomOf="@+id/levelHeader" /-->
 
@@ -235,7 +235,7 @@ app:layout_constraintTop_toBottomOf="@+id/levelHeader" /-->
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/points"
+        android:id="@+id/experience"
         android:layout_width="160dp"
         android:layout_height="57dp"
         android:layout_marginBottom="8dp"

@@ -8,9 +8,4 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
     }
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super..
-
-    }*/
 }

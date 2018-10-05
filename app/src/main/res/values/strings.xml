@@ -3,11 +3,14 @@
     <string name="title_home">Home</string>
     <string name="title_statistics">Statistics</string>
     <string name="title_map">Map</string>
+    <string name="stepTodayHeader">Steps today</string>
 
+    <string name="highScore">High score: %1$d</string>
     <string name="allSteps">All Steps</string>
     <string name="experience">Experience</string>
     <string name="trophies">Trophies</string>
     <string name="level">Level</string>
+    <string name="expToNextLevel">%1$d / %2$d</string>
 
     <string name="walkedDistanceImageDescription">Walked distance image</string>
     <string name="trophyImageDescription">Trophy image</string>

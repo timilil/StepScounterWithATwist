@@ -12,6 +12,5 @@
         android:endColor="@color/colorGreenThemePrimary"
         android:type="sweep"
         />
-    <!--solid android:color="@color/colorPrimary"/-->
 
 </shape>

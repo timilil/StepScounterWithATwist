@@ -3,7 +3,6 @@ package com.example.timil.sensorproject.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,8 +61,6 @@ class AugmentedTrophyFragment: ArFragment() {
     }
 
     private fun add3dObject(){
-        //Log.d("DBG", "add object click")
-
         val frame = this.arSceneView.arFrame
         val hits: List<HitResult>
         if (frame != null && renderable != null){
@@ -86,7 +83,6 @@ class AugmentedTrophyFragment: ArFragment() {
                             db.trophyDao().delete(Trophy(bundle!!.getLong("id"), bundle!!.getDouble("latitude"), bundle!!.getDouble("longitude")))
                         }
                         activityCallBack!!.onARTrophyClick()
-                        Log.d("DBG", "id: "+bundle?.getLong("id")+" lat: "+bundle?.getDouble("latitude")+ " long: "+bundle?.getDouble("longitude"))
                     }
                     break
                 }

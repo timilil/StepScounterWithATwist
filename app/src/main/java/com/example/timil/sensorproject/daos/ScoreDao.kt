@@ -18,8 +18,8 @@ interface ScoreDao{
     @Query("UPDATE score SET level = :level")
     fun updateLevel(level: Int)
 
-    @Query("UPDATE score SET points = :points")
-    fun updatePoints(points: Int)
+    @Query("UPDATE score SET experience = :experience")
+    fun updateExperience(experience: Int)
 
     @Query("UPDATE score SET trophies = :trophies")
     fun updateTrophyCount(trophies: Int)

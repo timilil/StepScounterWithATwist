@@ -19,7 +19,7 @@ interface StepDao{
     fun getTodaysSteps(today: String): LiveData<Step>
 
     @Query("SELECT * FROM step WHERE steps=(SELECT MAX(steps) FROM step)")
-    fun getHighestStep(): Step
+    fun getHighestStep(): Step?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(step: Step)

@@ -19,7 +19,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,9 +74,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             }
         }
 
-        if (/*Build.VERSION.SDK_INT >= 23 &&*/
-                        ContextCompat.checkSelfPermission(this,
-                                android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (ContextCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -88,6 +86,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         createNotificationChannel()
         sm = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sStepDetector = sm.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
+
         // check there is step_detector sensor in the used device
         // if sensor exists, register listener and add observer
         // else inform user there is no sensor needed
@@ -104,15 +103,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         setContentView(R.layout.activity_main)
 
         pref = PreferenceManager.getDefaultSharedPreferences(this)
-        //Log.d("DBG", pref!!.getString("pref_settings", "N/A"))
 
         listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
 
             // check if key value already exists
             if (key == THEME_PREF) {
 
-                //a pply color changes
-                Log.d("DBG", prefs.getString(key, "N/A") + key)
+                //apply color changes
                 val editor = getSharedPreferences(THEME_PREF, Context.MODE_PRIVATE).edit()
                 editor.putString(key, prefs.getString(key, "N/A"))
                 editor.apply()
@@ -140,7 +137,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // do stuff
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -156,8 +152,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
                 NotificationManagerCompat.from(this@MainActivity).notify(1, notification)
             }
             if (steps % 5 == 0){
-                Log.d("DBG", "step $steps")
-                ScoreDB.get(this@MainActivity).scoreDao().updatePoints(ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].points+1)
+                ScoreDB.get(this@MainActivity).scoreDao().updateExperience(ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].experience+1)
             }
             saveSteps(formattedDate, steps + 1)
         }
@@ -173,7 +168,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.settings -> {
-                //Log.d("DBG", "Clicked settings")
                 val settingsFragment = SettingsFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, settingsFragment).addToBackStack(null).commit()
                 return true
@@ -209,15 +203,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
 
     override fun onARTrophyClick() {
         supportFragmentManager.popBackStack()
-        val snack = Snackbar.make(container, "Trophy collected! Added +500 points to high score!", Snackbar.LENGTH_LONG)
+        val snack = Snackbar.make(container, "Trophy collected! Added +500 experience to high score!", Snackbar.LENGTH_LONG)
         snack.setAction("CLOSE") {}
         snack.setActionTextColor(Color.WHITE)
         snack.show()
         doAsync {
             val trophyCount = ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].trophies
             ScoreDB.get(this@MainActivity).scoreDao().updateTrophyCount(trophyCount+1)
-            val points = ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].points
-            ScoreDB.get(this@MainActivity).scoreDao().updatePoints(points+500)
+            val points = ScoreDB.get(this@MainActivity).scoreDao().getScore()[0].experience
+            ScoreDB.get(this@MainActivity).scoreDao().updateExperience(points+500)
         }
     }
 
