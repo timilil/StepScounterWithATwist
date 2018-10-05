@@ -12,15 +12,22 @@ import android.view.ViewGroup
 import com.example.timil.sensorproject.GOAL_PREF
 import com.example.timil.sensorproject.R
 import com.example.timil.sensorproject.database.StepDB
+import com.example.timil.sensorproject.entities.Step
 import kotlinx.android.synthetic.main.home_fragment.*
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.logging.SimpleFormatter
 
 class HomeFragment: Fragment() {
 
     private val date = LocalDateTime.now()
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val formattedDate = date.format(formatter)
+    private val simpleFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+    private val simpleDate = date.format(simpleFormatter)
     private var pref: SharedPreferences? = null
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +50,14 @@ class HomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //set on click listener etc etc
+        Log.d("DBG", "some: $simpleDate date: $date")
+        val dateSome = LocalDateTime.parse(getHighScore().sid+"T00:00:00.000")
+        txtHighScore.text = "High score: ${dateSome.format(simpleFormatter)} ${getHighScore().steps}"
+
         Log.d("DBG", "Home fragment view created ")
+    }
+
+    private fun getHighScore(): Step{
+       return StepDB.get(context!!).stepDao().getHighestStep()
     }
 }

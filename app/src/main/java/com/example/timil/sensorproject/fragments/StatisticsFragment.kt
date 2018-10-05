@@ -59,7 +59,7 @@ class StatisticsFragment: Fragment() {
                 }
 
                 level.text = it!![0].level.toString()
-                points.text = it[0].points.toString()
+                points.text = it[0].points.toString()+" / "+it[0].nextLevel.toString()
                 trophyCount.text = it[0].trophies.toString()
             })
             /*val steps = StepDB.get(context!!).stepDao().getStepsList()
@@ -84,15 +84,28 @@ class StatisticsFragment: Fragment() {
         val mapThis = sortedMapOf<String, Int>()
 
         for (i in 0 until stepData.size) {
-            val split = date.minusDays(i.toLong()).format(formatter).split("-")
+            val key = date.minusDays(i.toLong()).format(formatter)
+            val split = key.split("-")
 
-            //Log.d("DBG", "date "+stepData[i].sid+ " i = "+i)
-            if (split[1] == "0"+date.minusMonths(1).monthValue.toString()){
-                //Log.d("DBG", "KEY IS  "+date.minusDays(i.toLong()).format(formatter))
-                mapLast[date.minusDays(i.toLong()).format(formatter)] = stepData[i].steps//getSteps(date.minusDays(i.toLong()).format(formatter))
+            if (split[1].toInt() >= 10){
+                Log.d("DBG", "Split >= 10 $split")
+                if (split[1] == date.minusMonths(1).monthValue.toString()){
+                    //Log.d("DBG", "KEY IS  "+date.minusDays(i.toLong()).format(formatter))
+                    mapLast[key] = stepData[i].steps//getSteps(date.minusDays(i.toLong()).format(formatter))
+                }
+                else if (split[1] == date.monthValue.toString()){
+                    mapThis[key] = stepData[i].steps
+                }
             }
-            else if (split[1] == "0"+date.monthValue.toString()){
-                mapThis[date.minusDays(i.toLong()).format(formatter)] = stepData[i].steps
+            else{
+                Log.d("DBG", "Split else $split")
+                if (split[1] == "0"+date.minusMonths(1).monthValue.toString()){
+                    //Log.d("DBG", "KEY IS  "+date.minusDays(i.toLong()).format(formatter))
+                    mapLast[key] = stepData[i].steps//getSteps(date.minusDays(i.toLong()).format(formatter))
+                }
+                else if (split[1] == "0"+date.monthValue.toString()){
+                    mapThis[key] = stepData[i].steps
+                }
             }
         }
 
@@ -121,6 +134,7 @@ class StatisticsFragment: Fragment() {
     private fun updateLevel(){
         val level = ScoreDB.get(context!!).scoreDao().getScore()[0].level+1
         ScoreDB.get(context!!).scoreDao().updateLevel(level)
+        ScoreDB.get(context!!).scoreDao().updatePoints(0)
     }
 
     private fun updateNextLevel(count: Int){
