@@ -40,6 +40,7 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // if async, sometimes the app freeze
         if (getHighScore() != null){
             val dateSome = LocalDateTime.parse(getHighScore()?.sid+"T00:00:00.000")
             txtHighScore.text = getString(R.string.highScore, getHighScore()?.steps)

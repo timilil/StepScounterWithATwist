@@ -20,7 +20,8 @@ abstract class StepDB: RoomDatabase(){
             if (sInstance == null){
 
                 // allowMainThreadQueries = bad practise but it was the only way we could get the graph data
-                // shown without sometimes crashing. See StatisticsFragment line 74
+                // shown without sometimes crashing. See StatisticsFragment line 62-63
+                // in homefragment highscore is fetched in mainThread, because using async sometimes freeze the app(in lines 43-47)
                 sInstance =
                         Room.databaseBuilder(context.applicationContext,
                                 StepDB::class.java, "step.db").allowMainThreadQueries().build()
