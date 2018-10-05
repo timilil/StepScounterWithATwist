@@ -10,7 +10,7 @@ Navigation is done with fragments (home fragment, statistics fragment, map fragm
 <br>
 Home fragment shows a progress bar with steps for the day and walked high score and the day it was walked if there is one. Progress bar status is based on preference settings value (from 5000 to 15000).
 <br>
-Statistics fragment shows the user's all time walked steps, level, experience and trophy count. Level is based on the walked steps and trophies collected. 
+Statistics fragment shows the user's all time walked steps, level, experience and trophy count as live data. Level is based on the walked steps and trophies collected. 
 <br>
 Map view shows the trophies that are able to be collected when the user is near the trophy location and clicking it will open AR view and show the 3D trophy. One trophy will give 500+ points and collecting them will level up faster because we want to motivate the user to walk more.
 <br>
