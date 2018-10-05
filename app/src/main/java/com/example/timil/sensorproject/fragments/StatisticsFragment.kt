@@ -61,7 +61,7 @@ class StatisticsFragment: Fragment() {
         // this had to be done in main thread. In async it would crash the app sometimes --> why?????
         val steps = StepDB.get(context!!).stepDao().getStepsList()
         getStepHistory(30, steps)
-
+        
     }
 
     private fun getStepHistory(days: Int, stepData: List<Step>){

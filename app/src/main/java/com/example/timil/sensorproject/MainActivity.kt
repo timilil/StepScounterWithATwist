@@ -66,14 +66,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
             "N/A" -> setTheme(R.style.AppTheme)
         }
 
+        // super is called here because we are setting the theme based on the chosen preference value before the activity is created. See lines 111-123.
         super.onCreate(savedInstanceState)
 
+        // first time user starts the app, database is empty and it is initialized by default values
         doAsync {
             if(ScoreDB.get(this@MainActivity).scoreDao().getScore().isEmpty()){
                 initializeScoreDB()
             }
         }
 
+        // check permissions, user need to allow the app to use location and camera to use all the features of the app
         if (ContextCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
@@ -139,6 +142,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 
+    // when device sensor(STEP_DETECTOR) detects a step, it increases the value of steps taken today by one and saves it in to the database
+    // if user reaches the step goal of the day(set in to preferences) notification is created and send to user
+    // in every 5 steps taken, user get one experience point
     override fun onSensorChanged(event: SensorEvent) {
         doAsync {
             val steps = getSteps(formattedDate)
