@@ -12,6 +12,7 @@ Home fragment shows a progress bar with steps for the day and walked high score 
 <br>
 <br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091807.png" height="440" width="240"></img>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092040.png" height="440" width="240"></img>
 <br>
 <br>
 Statistics fragment shows the user's all time walked steps, level, experience and trophy count as live data. Also 30 days step count history is shown in a graph. Level is based on the walked steps and trophies collected. 
