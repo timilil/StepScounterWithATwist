@@ -1,5 +1,6 @@
 package com.example.timil.sensorproject.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.arch.lifecycle.Observer
 import android.content.Context
@@ -7,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.Fragment
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -26,7 +26,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
 class StatisticsFragment: Fragment() {
@@ -34,7 +33,6 @@ class StatisticsFragment: Fragment() {
     private val date = LocalDateTime.now()
     private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     private val graphFormatter = SimpleDateFormat.getDateInstance()
-    private val simpleFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.statistics_fragment, container, false)
@@ -69,6 +67,7 @@ class StatisticsFragment: Fragment() {
         // this had to be done in main thread. In async it would crash the app sometimes --> why?????
         val steps = StepDB.get(context!!).stepDao().getStepsList()
         getStepHistory(30, steps)
+
 
         stepsLinear.setOnClickListener {
             createPopupWindow(getString(R.string.stepsPopup), view)
@@ -139,6 +138,7 @@ class StatisticsFragment: Fragment() {
         ScoreDB.get(context!!).scoreDao().updateNextLevel(count)
     }
 
+    @SuppressLint("InflateParams")
     private fun createPopupWindow(text: String, root: View){
         val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.popup_layout, null)
@@ -171,7 +171,6 @@ class StatisticsFragment: Fragment() {
 
         popupWindow.setOnDismissListener {
             root.alpha = 1.0f
-            //fragmentManager!!.beginTransaction().detach(this).attach(this).commit()
         }
     }
 }
