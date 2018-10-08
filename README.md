@@ -55,4 +55,4 @@ Picture 6: Application color theme changed to blue.
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092027.png" height="440" width="240"></img>
 <br>
 <br>
-Team Team: Joni Tefke, Timi Liljeström
+Team Team
