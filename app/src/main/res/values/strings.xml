@@ -12,6 +12,11 @@
     <string name="level">Level</string>
     <string name="expToNextLevel">%1$d / %2$d</string>
 
+    <string name="stepsPopup">This is all the steps you have taken while using the application.</string>
+    <string name="trophyPopup">You have found and collect this many trophies.</string>
+    <string name="pointsPopup">You got this much experience points.\nYou get experience from walking and collecting trophies.</string>
+    <string name="levelPopup">When you reach experience goals, you level up</string>
+
     <string name="walkedDistanceImageDescription">Walked distance image</string>
     <string name="trophyImageDescription">Trophy image</string>
     <string name="experienceImageDescription">Experience image</string>
