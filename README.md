@@ -1,6 +1,6 @@
 # StepCounter
 
-Project done with Android Studio and Kotlin. Utilizes Google ARCore and Osmdroid map.
+Project done with Android Studio and Kotlin. Utilizes Google ARCore and osmdroid (OpenStreetMap) map.
 <br>
 Application counts daily steps with Android internal sensor (STEP_DETECTOR) and saves them to SQLite DB.
 <br>
@@ -29,7 +29,7 @@ Picture 3: Statistics view.
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091935.png" height="440" width="240"></img>
 <br>
 <br>
-Map view shows the user's location and the trophies that are able to be collected when the user is near the trophy location (less than 150 meters) and clicking it will open AR view and show the 3D trophy. One trophy will give 500 experience points and collecting them will level up faster because we want to motivate the user to walk more.
+Map view (osmdroid) shows the user's location and the trophies that are able to be collected when the user is near the trophy location (less than 150 meters) and clicking it will open AR view (Google ARCore) and show the 3D trophy. One trophy will give 500 experience points and collecting them will level up faster because we want to motivate the user to walk more.
 <br>
 <br>
 Picture 3: Map view with trophies placed to random locations (total trophy count at all times is 11). Zooming out will show more trophies on the map.<br>
