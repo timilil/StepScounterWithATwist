@@ -1,6 +1,6 @@
 # StepCounter
 
-Project done with Android Studio and Kotlin.
+Project done with Android Studio and Kotlin. Utilizes Google ARCore and Osmdroid map.
 <br>
 Application counts daily steps with Android internal sensor (STEP_DETECTOR), saves them to SQLite DB.
 <br>
