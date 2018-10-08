@@ -2,7 +2,7 @@
 
 Project done with Android Studio and Kotlin. Utilizes Google ARCore and Osmdroid map.
 <br>
-Application counts daily steps with Android internal sensor (STEP_DETECTOR), saves them to SQLite DB.
+Application counts daily steps with Android internal sensor (STEP_DETECTOR) and saves them to SQLite DB.
 <br>
 Possibility to collect trophies which are placed to random location on the map based on the user location. If the user location to the trophy is more than 8km, the trophies are replaced. Trophy locations are also saved to SQLite.
 <br>
