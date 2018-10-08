@@ -11,7 +11,7 @@ Navigation is done with fragments (home fragment, statistics fragment, map fragm
 Home fragment shows a progress bar with steps for the day and walked high score and the day it was walked if there is one. Progress bar status is based on preference settings value (from 5000 to 15000).
 <br>
 <br>
-<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091807.png"></img>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091807.png" height="120" width="60"></img>
 <br>
 <br>
 Statistics fragment shows the user's all time walked steps, level, experience and trophy count as live data. Also 30 days step count history is shown in a graph. Level is based on the walked steps and trophies collected. 
