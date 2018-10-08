@@ -4,7 +4,7 @@ Project done with Android Studio and Kotlin.
 <br>
 Application counts daily steps with Android internal sensor (STEP_DETECTOR), saves them to SQLite DB.
 <br>
-Possibility to collect trophies which are spawned on the map based on the user location. If the user location to the trophy is more than 8km, the trophies are respawned. Trophy locations are also saved to SQLite.
+Possibility to collect trophies which are placed to random location on the map based on the user location. If the user location to the trophy is more than 8km, the trophies are replaced. Trophy locations are also saved to SQLite.
 <br>
 Navigation is done with fragments (home fragment, statistics fragment, map fragment, ar fragment and settings fragment).
 <br>
@@ -12,18 +12,40 @@ Home fragment shows a progress bar with steps for the day and walked high score 
 <br>
 <br>
 Picture 1: Home view with progress bar. Preference is set to 5000 step goal for the day.
+<br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091807.png" height="440" width="240"></img>
 <br>
 <br>
 Picture 2: Home view with progress bar. Preference is set to 10000 step goal for the day.
+<br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092040.png" height="440" width="240"></img>
 <br>
 <br>
 Statistics fragment shows the user's all time walked steps, level, experience and trophy count as live data. Also 30 days step count history is shown in a graph. Level is based on the walked steps and trophies collected. 
 <br>
-Map view shows the trophies that are able to be collected when the user is near the trophy location and clicking it will open AR view and show the 3D trophy. One trophy will give 500+ points and collecting them will level up faster because we want to motivate the user to walk more.
+Picture 3: Statistics view.
 <br>
-Currently there are 4 available themes: black, blue, green, red which are changed from the settings. Also the user can change the daily step goal from settings. This step goal value then is updated to progress bar on home view.
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091935.png" height="440" width="240"></img>
 <br>
+Map view shows the trophies that are able to be collected when the user is near the trophy location and clicking it will open AR view and show the 3D trophy. One trophy will give 500 experience points and collecting them will level up faster because we want to motivate the user to walk more.
+<br>
+Picture 3: Map view with trophies placed to random locations (total trophy count is 11). Zooming out will show more trophies on the map.<br>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091858.png" height="440" width="240"></img>
+<br>
+Picture 4: AR view with the 3D trophy model. Clicking it will give 500 experience points.
+<br>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092003.png" height="440" width="240"></img>
+<br>
+Currently there are 4 available color themes: black, blue, green, red which are changed from the settings. Also the user can change the daily step goal from settings. This step goal value is then updated to progress bar on home view.
+<br>
+Picture 5: Settings view where the user can change step goal for the day and/or app color theme.
+<br>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092027.png" height="440" width="240"></img>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092031.png" height="440" width="240"></img>
+<br>
+<br>
+Picture 6: Application color theme changed to blue.
+<br>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092027.png" height="440" width="240"></img>
 <br>
 Team Team: Joni Tefke, Timi Liljeström
