@@ -52,7 +52,7 @@ Picture 5: Settings view where the user can change step goal for the day and/or 
 <br>
 Picture 6: Application color theme changed to blue.
 <br>
-<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092027.png" height="440" width="240"></img>
+<img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092053.png" height="440" width="240"></img>
 <br>
 <br>
 Team Team
