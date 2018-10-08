@@ -11,7 +11,11 @@ Navigation is done with fragments (home fragment, statistics fragment, map fragm
 Home fragment shows a progress bar with steps for the day and walked high score and the day it was walked if there is one. Progress bar status is based on preference settings value (from 5000 to 15000).
 <br>
 <br>
+Picture 1: Home view with progress bar. Preference is set to 5000 step goal for the day.
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091807.png" height="440" width="240"></img>
+<br>
+<br>
+Picture 2: Home view with progress bar. Preference is set to 10000 step goal for the day.
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092040.png" height="440" width="240"></img>
 <br>
 <br>
