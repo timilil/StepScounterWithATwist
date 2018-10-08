@@ -21,24 +21,30 @@ Picture 2: Home view with progress bar. Preference is set to 10000 step goal for
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092040.png" height="440" width="240"></img>
 <br>
 <br>
-Statistics fragment shows the user's all time walked steps, level, experience and trophy count as live data. Also 30 days step count history is shown in a graph. Level is based on the walked steps and trophies collected. 
+Statistics fragment shows the user's all time walked steps, level, experience and trophy count as live data. Also maximum 30 days step count history is shown in a graph. Level is based on the walked steps and trophies collected. 
+<br>
 <br>
 Picture 3: Statistics view.
 <br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091935.png" height="440" width="240"></img>
 <br>
-Map view shows the trophies that are able to be collected when the user is near the trophy location and clicking it will open AR view and show the 3D trophy. One trophy will give 500 experience points and collecting them will level up faster because we want to motivate the user to walk more.
 <br>
-Picture 3: Map view with trophies placed to random locations (total trophy count is 11). Zooming out will show more trophies on the map.<br>
+Map view shows the user's location and the trophies that are able to be collected when the user is near the trophy location (less than 150 meters) and clicking it will open AR view and show the 3D trophy. One trophy will give 500 experience points and collecting them will level up faster because we want to motivate the user to walk more.
+<br>
+<br>
+Picture 3: Map view with trophies placed to random locations (total trophy count at all times is 11). Zooming out will show more trophies on the map.<br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-091858.png" height="440" width="240"></img>
 <br>
-Picture 4: AR view with the 3D trophy model. Clicking it will give 500 experience points.
+<br>
+Picture 4: AR view with the 3D trophy model. Clicking it will "collect" it and give 500 experience points.
 <br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092003.png" height="440" width="240"></img>
 <br>
-Currently there are 4 available color themes: black, blue, green, red which are changed from the settings. Also the user can change the daily step goal from settings. This step goal value is then updated to progress bar on home view.
 <br>
-Picture 5: Settings view where the user can change step goal for the day and/or app color theme.
+Currently there are 4 available color themes: black, blue, green, red which are changed from the settings. Also the user can change the daily step goal from settings. This step goal value is then updated to progress bar on home view (pictures 1 and 2).
+<br>
+<br>
+Picture 5: Settings view where the user can change step goal for the day and/or application color theme.
 <br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092027.png" height="440" width="240"></img>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092031.png" height="440" width="240"></img>
@@ -47,5 +53,6 @@ Picture 5: Settings view where the user can change step goal for the day and/or 
 Picture 6: Application color theme changed to blue.
 <br>
 <img src="http://users.metropolia.fi/~timili/images/Screenshot_20181008-092027.png" height="440" width="240"></img>
+<br>
 <br>
 Team Team: Joni Tefke, Timi Liljeström
