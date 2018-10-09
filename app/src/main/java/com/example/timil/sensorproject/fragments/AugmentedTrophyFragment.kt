@@ -33,13 +33,14 @@ class AugmentedTrophyFragment: ArFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        // instantiate the 3D trophy model click listener
         activityCallBack = context as AugmentedFragmentTrophyClickListener
 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
     Bundle?): View? {
-
+        // get screen center data passed in bundle
         bundle = this.arguments
         if(bundle != null){
             screenX = bundle?.getInt("x")
@@ -67,6 +68,7 @@ class AugmentedTrophyFragment: ArFragment() {
             hits = frame.hitTest(screenX!!.toFloat(), screenY!!.toFloat())
             for (hit in hits){
                 val trackable = hit.trackable
+                // create the anchor and nodes if the trackable area is an AR plane
                 if (trackable is Plane){
                     val anchor = hit!!.createAnchor()
                     val anchorNode = AnchorNode(anchor)
@@ -77,6 +79,7 @@ class AugmentedTrophyFragment: ArFragment() {
                     mNode.select()
                     renderable = null
                     mNode.setOnTapListener { _, _ ->
+                        // remove the node, delete trophy location from DB and navigate back to previous view(which in this case is map fragment)
                         anchorNode.removeChild(mNode)
                         val db = TrophyDB.get(context!!)
                         doAsync {

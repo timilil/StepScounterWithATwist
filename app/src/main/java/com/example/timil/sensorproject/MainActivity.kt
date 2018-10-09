@@ -182,6 +182,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         return super.onOptionsItemSelected(item)
     }
 
+    //trophy clicked in the map fragment
     override fun onTrophyClick(id: Long, latitude: Double, longitude: Double) {
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
@@ -207,6 +208,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, MapFragment.MapFr
         }
     }
 
+    // 3D trophy clicked in the AR fragment
     override fun onARTrophyClick() {
         supportFragmentManager.popBackStack()
         val snack = Snackbar.make(container, "Trophy collected! Added +500 experience to high score!", Snackbar.LENGTH_LONG)

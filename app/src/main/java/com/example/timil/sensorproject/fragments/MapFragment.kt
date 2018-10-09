@@ -40,6 +40,7 @@ class MapFragment: Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        // instantiate the trophy click listener
         activityCallBack = context as MapFragmentTrophyClickListener
 
     }
@@ -50,6 +51,7 @@ class MapFragment: Fragment() {
 
         val ctx = context
 
+        //set the user agent to prevent getting banned from the osm servers
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx))
 
         return inflater.inflate(R.layout.map_fragment, container, false)
@@ -61,11 +63,12 @@ class MapFragment: Fragment() {
 
         val db = TrophyDB.get(context!!)
 
+        // create the map
         map.setTileSource(TileSourceFactory.MAPNIK)
-        //map.setBuiltInZoomControls(true)
         map.setMultiTouchControls(true)
         map.controller.setZoom(15.0)
 
+        // get the last location using the Google API client listener
         fusedLocationClient.lastLocation.addOnCompleteListener(activity!!) {
             task ->
             if (task.isSuccessful && task.result != null) {
@@ -73,21 +76,27 @@ class MapFragment: Fragment() {
                 // this condition was needed, because without it the app would crash if user navigates out of map fragment before the map is created
                 if (map != null) {
                     map.controller.setCenter(GeoPoint(task.result.latitude, task.result.longitude))
+
                     val myLocation = MyLocationNewOverlay(map)
                     myLocation.enableMyLocation()
                     myLocation.enableFollowLocation()
+                    // add overlay to user's current location --> this will be updated when the user moves
                     map.overlays.add(myLocation)
 
                     doAsync {
+                        // if the condition is true --> add trophies to trophy location DB so that there is always 11 trophies
                         if(db.trophyDao().getAllOld().size < 11){
                             val addItemsToDbCount = 10-db.trophyDao().getAllOld().size
                             for (i in 0..addItemsToDbCount){
+                                // trophy range between 1000 and 8000 meters
                                 val resultRange = randomTrophyRange(1000, 8000)
                                 addTrophyWithRandomLocationToDb(task.result.longitude, task.result.latitude, resultRange)
                             }
-                        } else {
+                        }
+                        else {
                             for (i in 0 until db.trophyDao().getAllOld().size){
-
+                                // if the distance to trophy is more than 8000 meters --> delete it and add a new one
+                                // this is because if the user for example travels to a different country, the trophies are relocated base on his current location
                                 val distanceInMeters = getDistanceToTrophy(task.result.latitude, task.result.longitude, db.trophyDao().getAllOld()[i].latitude, db.trophyDao().getAllOld()[i].longitude )
                                 if (distanceInMeters > 8000) {
                                     db.trophyDao().delete(db.trophyDao().getAllOld()[i])
@@ -97,6 +106,7 @@ class MapFragment: Fragment() {
                             }
                         }
                         UI {
+                            // add the trophy markers with drawable image to an overlayItem array
                             for (trophy in db.trophyDao().getAllOld()) {
                                 val olItem = OverlayItem(trophy.trophyid.toString(), null, GeoPoint(trophy.latitude, trophy.longitude))
                                 val newMarker = resources.getDrawable(R.drawable.trophy, null)
@@ -104,6 +114,7 @@ class MapFragment: Fragment() {
 
                                 items.add(olItem)
                             }
+                            // set click/tap listener and for each of the items in the array
                             val mOverlay = ItemizedOverlayWithFocus<OverlayItem>(context,items,
                                     object : ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
                                         override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
@@ -111,7 +122,7 @@ class MapFragment: Fragment() {
                                         }
 
                                         override fun onItemSingleTapUp(index: Int, item: OverlayItem): Boolean {
-                                            //if user is close to this item: add the ar view so collect price...
+                                            //if user is close to this item and clicks the trophy on map: add the ar view to collect the prize
                                             val distanceInMeters = getDistanceToTrophy(task.result.latitude, task.result.longitude, item.point.latitude, item.point.longitude )
                                             if(distanceInMeters < 8050.0){
                                                 activityCallBack!!.onTrophyClick(item.title.toLong(), item.point.latitude, item.point.longitude)
@@ -121,7 +132,7 @@ class MapFragment: Fragment() {
                                             return true
                                         }
                                     })
-
+                            // finally populate the map
                             map.overlays.add(mOverlay)
 
                         }
