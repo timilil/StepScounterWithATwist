@@ -9,9 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.support.v4.app.Fragment
 import android.transition.TransitionManager
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import com.example.timil.sensorproject.R
 import com.example.timil.sensorproject.database.ScoreDB
 import com.example.timil.sensorproject.database.StepDB
@@ -68,7 +66,6 @@ class StatisticsFragment: Fragment() {
         // this had to be done in main thread. In async it would crash the app sometimes --> why?????
         val steps = StepDB.get(context!!).stepDao().getStepsList()
         getStepHistory(30, steps)
-
 
         stepsLinear.setOnClickListener {
             createPopupWindow(getString(R.string.stepsPopup), view)
@@ -163,7 +160,7 @@ class StatisticsFragment: Fragment() {
 
         root.alpha = 0.3f
         tv.text = text
-        popupWindow.elevation = 10.0F
+        popupWindow.elevation = 24.0F
         popupWindow.isOutsideTouchable = true
         popupWindow.isFocusable = true
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.BLACK))

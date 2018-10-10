@@ -13,9 +13,9 @@
     <string name="expToNextLevel">%1$d / %2$d</string>
 
     <string name="stepsPopup">This is the amount of all the steps you have taken while using the application.</string>
-    <string name="trophyPopup">You have found and collected this many trophies.\nYou can find trophies in the map and collect them when you are within range of 150m of them.</string>
-    <string name="pointsPopup">You got this much experience points.\nYou get experience points from walking and collecting trophies.</string>
-    <string name="levelPopup">You get a level every time you reach the next experience goal.</string>
+    <string name="trophyPopup">This is the amount of trophies you have found and collected.\nYou can find trophies in the map and collect them when you are within range of 150m from them.</string>
+    <string name="pointsPopup">This is the amount of experience points you have and the next goal.\nYou get experience points from walking and collecting trophies.</string>
+    <string name="levelPopup">This is your level. You get a new level every time you reach the next experience goal.</string>
 
     <string name="walkedDistanceImageDescription">Walked distance image</string>
     <string name="trophyImageDescription">Trophy image</string>
