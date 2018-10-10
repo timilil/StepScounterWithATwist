@@ -43,7 +43,8 @@ class StatisticsFragment: Fragment() {
 
         graph.gridLabelRenderer.labelFormatter = DateAsXAxisLabelFormatter(context!!, graphFormatter)
         graph.gridLabelRenderer.setHorizontalLabelsAngle(90)
-        graph.gridLabelRenderer.labelsSpace = 15
+        graph.gridLabelRenderer.labelsSpace = 20
+        graph.title = context!!.resources.getString(R.string.last_30_days)
         graph.gridLabelRenderer.reloadStyles()
 
         doAsync {
@@ -84,7 +85,6 @@ class StatisticsFragment: Fragment() {
     }
 
     private fun getStepHistory(days: Int, stepData: List<Step>){
-        val series = LineGraphSeries<DataPoint>()
         val mapLast = sortedMapOf<String, Int>()
         val mapThis = sortedMapOf<String, Int>()
 
@@ -110,6 +110,12 @@ class StatisticsFragment: Fragment() {
             }
         }
 
+        populateGraph(days, mapLast, mapThis)
+    }
+
+    private fun populateGraph(days: Int, mapLast: SortedMap<String, Int>, mapThis: SortedMap<String, Int>){
+        val series = LineGraphSeries<DataPoint>()
+
         mapLast.forEach { key, value ->
             val dateDB = LocalDate.parse(key, formatter)
             series.appendData(DataPoint(dateDB.toDate(), value.toDouble()), false, days)
@@ -119,10 +125,15 @@ class StatisticsFragment: Fragment() {
             series.appendData(DataPoint(dateDB.toDate(), value.toDouble()), false, days)
         }
 
-        graph.title = context!!.resources.getString(R.string.last_30_days)
         graph.gridLabelRenderer.numHorizontalLabels = days / 2
+        graph.viewport.isXAxisBoundsManual = true
+        graph.viewport.isYAxisBoundsManual = true
         graph.viewport.setMaxX(series.highestValueX)
         graph.viewport.setMinX(series.lowestValueX)
+        graph.viewport.setMaxY(series.highestValueY + 3000)
+        //graph.viewport.setMinY(series.lowestValueY - 3000)
+        //graph.viewport.setMinY(series.lowestValueY)
+        graph.viewport.setMinY(0.0)
         graph.addSeries(series)
     }
 
@@ -166,7 +177,7 @@ class StatisticsFragment: Fragment() {
                 statisticsConstraint,
                 Gravity.CENTER,
                 0,
-                0
+                -250
         )
 
         popupWindow.setOnDismissListener {
