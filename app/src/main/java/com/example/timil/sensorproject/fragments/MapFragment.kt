@@ -124,7 +124,7 @@ class MapFragment: Fragment() {
                                         override fun onItemSingleTapUp(index: Int, item: OverlayItem): Boolean {
                                             //if user is close to this item and clicks the trophy on map: add the ar view to collect the prize
                                             val distanceInMeters = getDistanceToTrophy(task.result.latitude, task.result.longitude, item.point.latitude, item.point.longitude )
-                                            if(distanceInMeters < 8050.0){
+                                            if(distanceInMeters < 150.0){
                                                 activityCallBack!!.onTrophyClick(item.title.toLong(), item.point.latitude, item.point.longitude)
                                             } else {
                                                 Toast.makeText(context, "Get closer to the target, your distance must be less than 150 m (distance is "+distanceInMeters.toInt()+" meters)", Toast.LENGTH_SHORT).show()
